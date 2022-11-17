@@ -15,6 +15,10 @@ public class Game extends Canvas implements Runnable,KeyListener {
 	public static final String TITLE = "ayan-man";
 	private Thread thread; //SUBPROCESS to do multiple things
 	public static Ayanman player;
+	public static Monster monster1;
+	public static Monster monster2;
+	public static Labyrinthe map;
+
 
 	public Game() {
 		Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
@@ -24,18 +28,26 @@ public class Game extends Canvas implements Runnable,KeyListener {
 		
 		addKeyListener(this);
 		player =new Ayanman(Game.WIDTH/2,Game.HEIGHT/2);
+		monster1=new Monster(Game.WIDTH/3,Game.HEIGHT/3);
+		monster2=new Monster(Game.WIDTH*2/3,Game.HEIGHT/6);
+		map =new Labyrinthe(Game.WIDTH/4,Game.HEIGHT/4);
+		
+		
 	}
+
+	
+	
 
 	public synchronized void start() { //synchronized sert a ne pas perdre le thread en executant
 		if (isRunning)
 			return;
-		isRunning = true;
-		thread = new Thread(this);
-		thread.start();
+		    isRunning = true;
+		   thread = new Thread(this);
+		  thread.start();
 	}
 
 	public synchronized void stop() {
-		if (!isRunning)
+		  if (!isRunning)
 			return;
 		isRunning = false;
 		try {
@@ -45,7 +57,7 @@ public class Game extends Canvas implements Runnable,KeyListener {
 		}
 	}
 
-	private void update() {
+	    private void update() {
 		player.update();
 	}
 
@@ -56,14 +68,17 @@ public class Game extends Canvas implements Runnable,KeyListener {
 			return;
 		}
 		Graphics g=bs.getDrawGraphics();
-		g.setColor(Color.black);
+		g.setColor(Color.blue);
 		g.fillRect(0,0, Game.WIDTH, Game.HEIGHT);
 		player.render(g);
+		monster1.render(g);
+		monster2.render(g);
+		map.render(g);
 		g.dispose();
 		bs.show();
 	}
 
-	public void run() {
+	  public void run() {
 		requestFocus();
 		int fps=0;
 		double timer=System.currentTimeMillis();
@@ -95,7 +110,7 @@ public class Game extends Canvas implements Runnable,KeyListener {
 
 	
 	
-	public static void main(String[] args) {
+	  public static void main(String[] args) {
 		Game game = new Game();
 		JFrame frame = new JFrame();
 		frame.setTitle(Game.TITLE);
