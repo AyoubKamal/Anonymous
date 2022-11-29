@@ -5,34 +5,49 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
-
+import java.io.IOException;
 import javax.swing.JFrame;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Game extends Canvas implements Runnable,KeyListener {
 	public boolean isRunning = false;
 
-	public static final int WIDTH = 1020, HEIGHT = 580;
+	public static final int WIDTH = 1500, HEIGHT = 690;
 	public static final String TITLE = "ayan-man";
 	private Thread thread; //SUBPROCESS to do multiple things
 	public static Ayanman player;
 	public static Monster monster1;
 	public static Monster monster2;
+	public static imageHero i;
+	public static imageMonster o;
 	public static Labyrinthe map;
+	public static Tresor tresor1;
+	public static Tresor tresor2;
+	public static score score ;
+	public static Tresor [] liste_t;
 
-
-	public Game() {
+	public Game() throws IOException {
 		Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
 		setPreferredSize(dimension);
 		setMinimumSize(dimension);
 		setMaximumSize(dimension);
-		
+		map=new Labyrinthe("Laby.txt");
 		addKeyListener(this);
-		player =new Ayanman(Game.WIDTH/2,Game.HEIGHT/2);
-		monster1=new Monster(Game.WIDTH/3,Game.HEIGHT/3);
+		player =new Ayanman(0,0);
+		monster1=new Monster(0,0);
 		monster2=new Monster(Game.WIDTH*2/3,Game.HEIGHT/6);
-		map =new Labyrinthe(Game.WIDTH/4,Game.HEIGHT/4);
-		
-		
+
+		tresor1=new Tresor(7,4,map);
+		tresor2=new Tresor(9,13,map);
+		liste_t =new Tresor [2];
+		liste_t[0]=tresor1;
+		liste_t[1]=tresor2;
+		i=new imageHero("/Aa.png");
+		o=new imageMonster("/Ac.png");
+		score =new score(liste_t);
 	}
 
 	
@@ -57,23 +72,35 @@ public class Game extends Canvas implements Runnable,KeyListener {
 		}
 	}
 
-	    private void update() {
+	    private void update() throws IOException{
+	
 		player.update();
+		//monster1.update();
+		//monster2.update();
+		score.update_score(map);
+	    
+
 	}
 
-	private void render() {
+	private void render() throws IOException {
 		BufferStrategy bs= getBufferStrategy(); //temporary place of storage "next step"
 		if(bs==null) {
 			createBufferStrategy(4);
 			return;
 		}
 		Graphics g=bs.getDrawGraphics();
-		g.setColor(Color.blue);
+		g.setColor(Color.white);
 		g.fillRect(0,0, Game.WIDTH, Game.HEIGHT);
+		map.draw(g);
 		player.render(g);
 		monster1.render(g);
 		monster2.render(g);
-		map.render(g);
+		//tresor1.render("images/heart_2.png",g);
+		tresor1.annuler(map, player);
+		tresor2.annuler(map, player);
+		//score.render(g);
+		System.out.println(tresor1.getX());
+
 		g.dispose();
 		bs.show();
 	}
@@ -92,8 +119,19 @@ public class Game extends Canvas implements Runnable,KeyListener {
 			lastTime=now;
 			
 			while(delta>=1) {
-				update();
-				render();
+				
+				try {
+					update();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					render();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				fps++;
 				delta--;
 			}
@@ -110,11 +148,16 @@ public class Game extends Canvas implements Runnable,KeyListener {
 
 	
 	
-	  public static void main(String[] args) {
+	  public static void main(String[] args) throws IOException {
+		  
+
+		  
+		  
 		Game game = new Game();
 		JFrame frame = new JFrame();
 		frame.setTitle(Game.TITLE);
 		frame.add(game);
+	
 		frame.setResizable(false);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -127,14 +170,15 @@ public class Game extends Canvas implements Runnable,KeyListener {
 	
 	
 	
-	public void keyTyped(KeyEvent e) {}
+	public void keyTyped(KeyEvent e) {
+
+	}
 
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode()==KeyEvent.VK_UP) player.up=true;
 		if(e.getKeyCode()==KeyEvent.VK_DOWN) player.down=true;
 		if(e.getKeyCode()==KeyEvent.VK_RIGHT) player.right=true;
 		if(e.getKeyCode()==KeyEvent.VK_LEFT) player.left=true;
-		
 	}
 
 	public void keyReleased(KeyEvent e) {
