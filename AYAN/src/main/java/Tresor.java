@@ -69,7 +69,7 @@ public class Tresor extends JPanel{
 	public void annuler(Labyrinthe map, Ayanman player) {
 		
 		if ( player.getX()-y*57<20 && player.getX()-y*57>-20 && player.getY()-x*57<20 && player.getY()-x*57>-20 )  {
-			System.out.println("hello");
+
 			map.plateau [x][y]= 0;
 		}
 	}

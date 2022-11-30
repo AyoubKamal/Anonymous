@@ -123,8 +123,9 @@ public static void LireFichier() throws IOException {
 	public void draw (Graphics g) throws IOException {
 		
 		int [] dim =dimensionFichier();
-		System.out.println(Game.HEIGHT/dim[0]+"  "+Game.WIDTH/dim[1]);
+
 		//dissiner2("images/grass2.png",g,0,0);
+		System.out.println(Game.HEIGHT/dim[0] +" "+ Game.WIDTH/dim[1]);
 		for (int i=0;i<dim[0];i++) {
 			for (int j=0;j<dim[1];j++) {
 				int [] positionLaby=getPostitionLaby(j,i);

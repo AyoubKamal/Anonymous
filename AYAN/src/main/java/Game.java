@@ -22,6 +22,9 @@ public class Game extends Canvas implements Runnable,KeyListener {
 	public static Monster monster1;
 	public static Monster monster2;
 	public static imageHero i;
+	public static imageHero qw;
+	public static imageHero qs;
+	public static imageHero qa;
 	public static imageMonster o;
 	public static Labyrinthe map;
 	public static Tresor tresor1;
@@ -37,15 +40,18 @@ public class Game extends Canvas implements Runnable,KeyListener {
 		map=new Labyrinthe("Laby.txt");
 		addKeyListener(this);
 		player =new Ayanman(0,0);
-		monster1=new Monster(0,0);
-		monster2=new Monster(Game.WIDTH*2/3,Game.HEIGHT/6);
+		monster1=new Monster(3,4);
+		monster2=new Monster(4,8);
 
-		tresor1=new Tresor(7,4,map);
+		tresor1=new Tresor(7,14,map);
 		tresor2=new Tresor(9,13,map);
 		liste_t =new Tresor [2];
 		liste_t[0]=tresor1;
 		liste_t[1]=tresor2;
-		i=new imageHero("/Aa.png");
+		i=new imageHero("/HeroA.png");
+		qw=new imageHero("/HeroAA.png");
+		qs=new imageHero("/HeroAAA.png");
+		qa=new imageHero("/HeroAAAA.png");
 		o=new imageMonster("/Ac.png");
 		score =new score(liste_t);
 	}
@@ -72,11 +78,11 @@ public class Game extends Canvas implements Runnable,KeyListener {
 		}
 	}
 
-	    private void update() throws IOException{
+	    private void update() throws IOException, InterruptedException{
 	
 		player.update();
-		//monster1.update();
-		//monster2.update();
+		monster1.update(map);
+		monster2.update(map);
 		score.update_score(map);
 	    
 
@@ -85,7 +91,7 @@ public class Game extends Canvas implements Runnable,KeyListener {
 	private void render() throws IOException {
 		BufferStrategy bs= getBufferStrategy(); //temporary place of storage "next step"
 		if(bs==null) {
-			createBufferStrategy(4);
+			createBufferStrategy(2);
 			return;
 		}
 		Graphics g=bs.getDrawGraphics();
@@ -99,7 +105,7 @@ public class Game extends Canvas implements Runnable,KeyListener {
 		tresor1.annuler(map, player);
 		tresor2.annuler(map, player);
 		//score.render(g);
-		System.out.println(tresor1.getX());
+	
 
 		g.dispose();
 		bs.show();
@@ -125,6 +131,9 @@ public class Game extends Canvas implements Runnable,KeyListener {
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				try {
 					render();
