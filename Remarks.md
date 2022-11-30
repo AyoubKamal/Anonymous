@@ -5,3 +5,9 @@
 - Codes : Pas trouvé le code correspondant au diagramme de classes décrites
 
 # Sprint 2
+- Pas diagramme de classes avant et après sprint
+- Diagramme de séquence trop simplifiée
+- Pas de préparatation de Spint 3
+
+# Sprint 3
+
