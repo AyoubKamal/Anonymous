@@ -18,12 +18,22 @@ public class Labyrinthe extends JPanel {
 	
 	private static String nomFichier; 
 	public static int [][] plateau;
+	public static int [] dim;
+	BufferedImage[] images =new BufferedImage [15];
+	public boolean [] colision =new boolean [15];
+	
 
 
 	Labyrinthe(String nomFichier) throws IOException{
 		this.nomFichier=nomFichier;
+		dim=dimensionFichier();
 		LireFichier();
-		
+		images[1]=ImageIO.read(new File("images/tiles/wall.png"));
+		images[0]=ImageIO.read(new File("images/tiles/grass.png"));
+		images[2]=ImageIO.read(new File("images/tiles/water.png"));
+		colision[0]=true;
+		colision[1]=false;
+		colision[2]=true;
 	}
 	
 	
@@ -31,12 +41,10 @@ public static int [] dimensionFichier() throws IOException  {
 	int [] dim = new int [2];
 	File f = new File(nomFichier);
 	BufferedReader fR = null;
-		fR = new BufferedReader(new FileReader(f));
-	
+	fR = new BufferedReader(new FileReader(f));
 	BufferedReader fR2 = null;
-	
-		fR2 = new BufferedReader(new FileReader(f));
-	
+	fR2 = new BufferedReader(new FileReader(f));
+
 	String chaine ="";
 	String chaine2="";
 	int nb_ligne=0;
@@ -74,8 +82,6 @@ public static void setPlateau(int[][] plateau) {
 
 
 public static void LireFichier() throws IOException {
-	
-	int[] dim=dimensionFichier();
 	plateau=new int [dim[0]][dim[1]];
 	File f = new File(nomFichier);
 	BufferedReader fR = new BufferedReader(new FileReader(f));
@@ -90,7 +96,7 @@ public static void LireFichier() throws IOException {
         } 
         fR.close();
 }
-	public static void afficher () throws IOException {
+/*	public static void afficher () throws IOException {
 		LireFichier();
 		int [] dim =dimensionFichier();
 		for(int i =0;i<dim[0];i++) {
@@ -99,19 +105,18 @@ public static void LireFichier() throws IOException {
 			}
 			System.out.println("");
 		}
-	}
+	}*/
 	
 
 
-	public void dissiner2(String nomFichierImage,Graphics g,int x,int y) throws IOException {
+	public void dissiner2(String nomFichierImage,Graphics2D g,int x,int y) throws IOException {
 		Image img = ImageIO.read(new File(nomFichierImage));
-		g.drawImage(img, x, y,this);
+		g.drawImage(img, x, y,46,46,null);
 		
 	
 }
 
 	public int [] getPostitionLaby(int i , int j) throws IOException {
-		int [] dim =dimensionFichier();
 		int x = Game.WIDTH/dim[1];
 		int y = Game.HEIGHT/dim[0];
 		int [] resultat = new int [2];
@@ -120,27 +125,48 @@ public static void LireFichier() throws IOException {
 		return resultat;
 		}
 
-	public void draw (Graphics g) throws IOException {
-		
-		int [] dim =dimensionFichier();
-
+	public void draw (Graphics2D g) {
 		//dissiner2("images/grass2.png",g,0,0);
-		System.out.println(Game.HEIGHT/dim[0] +" "+ Game.WIDTH/dim[1]);
-		for (int i=0;i<dim[0];i++) {
-			for (int j=0;j<dim[1];j++) {
-				int [] positionLaby=getPostitionLaby(j,i);
-				dissiner2("images/grass.png",g,positionLaby[0],positionLaby[1]);
+		//System.out.println(Game.HEIGHT/dim[0] +" "+ Game.WIDTH/dim[1]);
+		for (int i=0;i<Game.Nb_row;i++) {
+			for (int j=0;j<Game.Nb_col;j++) {
+				g.drawImage(images[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);
+				
+				/*dissiner2("images/tiles/wall.png",g,positionLaby[0],positionLaby[1]);
 				if(plateau[i][j]==1) {
-					 		dissiner2("images/wall.png",g,positionLaby[0],positionLaby[1]);
+					 		dissiner2("images/tiles/water.png",g,positionLaby[0],positionLaby[1]);
 					  		}
 				else if (plateau[i][j]==2) {
-							dissiner2("images/heart_2.png",g,positionLaby[0],positionLaby[1]);
-				}
+							dissiner2("images/tiles/grass.png",g,positionLaby[0],positionLaby[1]);
+				}*/
 				
 			}
 		}
 			
 	}
+	
+	
+	
+	public void draw3(Graphics2D g2) {
+	}
+	public void draw2(Graphics2D g2) {
+		
+		int col = 0;
+		int row = 0;
+		int x = 0;
+		int y = 0;
+		while (col <dim[1]  && row <dim[0] ) {
+			int tileNum=plateau[col][row];
+			g2.drawImage(images[tileNum], x, y, Game.tileSize, Game.tileSize, null);
+			col+=1;
+			x += Game.tileSize;
+			if (col == 10) {
+				col = 0;
+				x = 0;
+				row++;
+				y += Game.tileSize;
+			
+			}
+		}
+	}
 }
-
-
