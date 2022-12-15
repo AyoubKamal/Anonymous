@@ -96,17 +96,6 @@ public static void LireFichier() throws IOException {
         } 
         fR.close();
 }
-/*	public static void afficher () throws IOException {
-		LireFichier();
-		int [] dim =dimensionFichier();
-		for(int i =0;i<dim[0];i++) {
-			for(int j=0;j<dim[1];j++) {
-				System.out.print(plateau[i][j]);
-			}
-			System.out.println("");
-		}
-	}*/
-	
 
 
 	public void dissiner2(String nomFichierImage,Graphics2D g,int x,int y) throws IOException {
@@ -126,20 +115,9 @@ public static void LireFichier() throws IOException {
 		}
 
 	public void draw (Graphics2D g) {
-		//dissiner2("images/grass2.png",g,0,0);
-		//System.out.println(Game.HEIGHT/dim[0] +" "+ Game.WIDTH/dim[1]);
 		for (int i=0;i<Game.Nb_row;i++) {
 			for (int j=0;j<Game.Nb_col;j++) {
-				g.drawImage(images[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);
-				
-				/*dissiner2("images/tiles/wall.png",g,positionLaby[0],positionLaby[1]);
-				if(plateau[i][j]==1) {
-					 		dissiner2("images/tiles/water.png",g,positionLaby[0],positionLaby[1]);
-					  		}
-				else if (plateau[i][j]==2) {
-							dissiner2("images/tiles/grass.png",g,positionLaby[0],positionLaby[1]);
-				}*/
-				
+				g.drawImage(images[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);				
 			}
 		}
 			
@@ -147,26 +125,5 @@ public static void LireFichier() throws IOException {
 	
 	
 	
-	public void draw3(Graphics2D g2) {
-	}
-	public void draw2(Graphics2D g2) {
-		
-		int col = 0;
-		int row = 0;
-		int x = 0;
-		int y = 0;
-		while (col <dim[1]  && row <dim[0] ) {
-			int tileNum=plateau[col][row];
-			g2.drawImage(images[tileNum], x, y, Game.tileSize, Game.tileSize, null);
-			col+=1;
-			x += Game.tileSize;
-			if (col == 10) {
-				col = 0;
-				x = 0;
-				row++;
-				y += Game.tileSize;
-			
-			}
-		}
-	}
+
 }

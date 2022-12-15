@@ -2,8 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class score  {
-	int width =1500;
-	int heigth =57;
+
 	private static Tresor [] liste_tresories; 
 	private int score =0;
 	score(Tresor [] liste_tresories){
@@ -13,9 +12,9 @@ public class score  {
 		int a,b;
 		for (int i=0;i<liste_tresories.length;i++) {
 			if (liste_tresories[i]!=null) {
-				a=liste_tresories[i].getX();
-				b=liste_tresories[i].getY();
-			if (laby.plateau[a][b]==0) {
+				a=liste_tresories[i].getI();
+				b=liste_tresories[i].getJ();
+			if ((Math.abs(Game.player.getX()-liste_tresories[i].getX())<20 && Math.abs(Game.player.getY()-liste_tresories[i].getY())<20)) {
 				score+=50;
 				liste_tresories[i]=null;
 			}

@@ -16,8 +16,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Game extends JPanel implements Runnable,KeyListener {
-	public boolean isRunning = false;
+	public static boolean isRunning = false;
 	public static final String TITLE = "Ayan-man";
+
 
 	public final static int originalTileSize = 16;
 	public final static int echelle = 3;
@@ -34,8 +35,14 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public static Labyrinthe map;
 	public static Tresor tresor1;
 	public static Tresor tresor2;
+	public static Tresor coeur1;
+	public static Tresor coeur2;
+	public static Tresor key;
 	public static score score ;
+	public static Vie vie;
+	public static Gagner gagner;
 	public static Tresor [] liste_t;
+	public static Tresor [] liste_t1;
 
 
 	public Game() throws IOException {
@@ -55,17 +62,29 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		monster2.setSpeed(2);
 		//KeyHandler keyH = new KeyHandler();
 		
-		tresor1=new Tresor(7,14,map);
-		tresor2=new Tresor(9,13,map);
-		liste_t =new Tresor [2];
+		//score: coeur : gagner
+		
+		tresor1=new Tresor(10,2,map,1);
+		tresor2=new Tresor(5,9,map,1);
+		
+		coeur1=new Tresor(2,10,map,2);
+		coeur2=new Tresor(6,5,map,2);
+		
+		key=new Tresor(10,24,map,3);
+		
+		
+		liste_t=new Tresor[2];
 		liste_t[0]=tresor1;
 		liste_t[1]=tresor2;
-		//i=new imageHero("/HeroA.png");
-		//qw=new imageHero("/HeroAA.png");
-		//qs=new imageHero("/HeroAAA.png");
-		//qa=new imageHero("/HeroAAAA.png");
-		//o=new imageMonster("/Ac.png");
-		//score =new score(liste_t);
+		
+		liste_t1=new Tresor[2];
+		liste_t1[0]=coeur1;
+		liste_t1[1]=coeur2;
+		
+		score=new score(liste_t);
+		vie=new Vie(liste_t1);
+		gagner=new Gagner(key);
+
 	}
 
 	
@@ -80,25 +99,24 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			thread = new Thread(this);
 			thread.start();
 	}
-
-	/*public synchronized void stop() {
-		  if (!isRunning)
+	public static void stop() {
+		if(isRunning=false) {
 			return;
-		isRunning = false;
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}*/
+			}
+			isRunning=false;
+	}
+	
+
+
 
 	    private void update() {
 	
 		player.update(map);
 		monster1.updateIntelligente(player,map);
 		monster2.update(map);
-		//score.update_score(map);
-	    
+		score.update_score(map);
+	    vie.update_vie(map);
+	    gagner.update_gagner(map);
 
 	}
 	    
@@ -107,41 +125,25 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D) g;
 			map.draw(g2);
-			player.render(g2);
 			monster1.render(g2);
 			monster2.render(g2);
+			
+			try {
+				tresor1.render(g2);
+				tresor2.render(g2);
+				coeur1.render(g2);
+				coeur2.render(g2);
+				key.render(g2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			player.render(g2);
 			g2.dispose();
 		
 	}
 
-/*	private void render() throws IOException {
-		BufferStrategy bs= getBufferStrategy(); //temporary place of storage "next step"
-		if(bs==null) {
-			createBufferStrategy(2);
-			return;
-		}
-		Graphics g=bs.getDrawGraphics();
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		map.draw(g2);
-		player.draw(g2);
-		g2.dispose();
-	
-		g.setColor(Color.white);
-		g.fillRect(0,0, Game.WIDTH, Game.HEIGHT);
-		map.draw(g);
-		player.render(g);
-		monster1.render(g);
-		monster2.render(g);
-		//tresor1.render("images/heart_2.png",g);
-		tresor1.annuler(map, player);
-		tresor2.annuler(map, player);
-		//score.render(g);
-	
 
-		g.dispose();
-		bs.show();
-	}*/
 
 		public void run() {
 			requestFocus();
@@ -149,7 +151,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			double nextDrawTime=System.nanoTime()+drawInterval;
 			
 			// TODO Auto-generated method stub
-			while (thread != null) {
+			while (isRunning) {
 				
 				
 				update();
