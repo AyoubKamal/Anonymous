@@ -10,21 +10,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
-
 
 public class Tresor extends JPanel{
 	
 
 	private int x;
 	private int y;
-	private static String nomFichier; 
+	private static String nomFichier;
 	
-
 	
 	public Tresor(int x, int y,Labyrinthe map ) {
 		this.x=x;
@@ -63,15 +59,11 @@ public class Tresor extends JPanel{
 	public void render(String nomFichierImage,Graphics g) throws IOException {
 		Image img = ImageIO.read(new File(nomFichierImage));
 		g.drawImage(img, x*57,y*57 ,this);
-
 	}
 	
 	public void annuler(Labyrinthe map, Ayanman player) {
-		
 		if ( player.getX()-y*57<20 && player.getX()-y*57>-20 && player.getY()-x*57<20 && player.getY()-x*57>-20 )  {
-
-			map.plateau [x][y]= 0;
+			map.plateau [x][y]=0;
 		}
 	}
-
 }

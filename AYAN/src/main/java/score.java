@@ -20,19 +20,19 @@ public class score  {
 				liste_tresories[i]=null;
 			}
 		}
-		}
+	}
+	
 	System.out.println("score = "+score);
 	}
 	public void render (Graphics g) {
 		String score_str =String.valueOf(score);
 		g.drawString(score_str, 750,28);
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
 }

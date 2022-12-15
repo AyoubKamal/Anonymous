@@ -108,9 +108,9 @@ public class Ayanman  {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
+
 	public void update(Labyrinthe map) {
 		//System.out.println(this.up + " "+ this.down +" "+this.left+" "+this.right);
 		if(this.up==true || this.down==true || this.left==true || this.right==true) {
@@ -257,7 +257,6 @@ public class Ayanman  {
 	}
 	
 	public double getY() {
-		
 		return y;
 	}
 	

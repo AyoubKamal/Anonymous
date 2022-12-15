@@ -50,7 +50,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		map=new Labyrinthe("Laby.txt");
 		
 		player =new Ayanman(0,0);
-		monster1=new Monster(20,30);
+		monster1=new Monster(0,0);
 		monster2=new Monster(0,0);
 		monster2.setSpeed(2);
 		//KeyHandler keyH = new KeyHandler();
@@ -70,7 +70,8 @@ public class Game extends JPanel implements Runnable,KeyListener {
 
 	
 	
-
+	
+	
 	public  void start() { //synchronized sert a ne pas perdre le thread en executant
 		if(isRunning) {
 			return;
@@ -170,13 +171,8 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		}
 
 	  
-	  
-	  
-	  
-	 
-	  public static void main(String[] args) throws IOException {
+	  public static void main(String[] args) throws IOException {  
 		  
-
 		Game game = new Game();
 		JFrame frame = new JFrame();
 		frame.setTitle(Game.TITLE);
