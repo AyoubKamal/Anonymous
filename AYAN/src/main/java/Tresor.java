@@ -22,10 +22,6 @@ public class Tresor extends JPanel{
 	private static String nomFichier;
 	
 	
-	public Tresor(int x, int y,Labyrinthe map ) {
-		this.x=x;
-		this.y=y;
-		map.plateau [x][y]=2;
 		public int i,j;
 		public int nb;
 		public boolean T;
@@ -83,11 +79,7 @@ public int getJ() {
 		Image img = ImageIO.read(new File(nomFichierImage));
 		g.drawImage(img, x*57,y*57 ,this);
 	}
-	
-	public void annuler(Labyrinthe map, Ayanman player) {
-		if ( player.getX()-y*57<20 && player.getX()-y*57>-20 && player.getY()-x*57<20 && player.getY()-x*57>-20 )  {
-			map.plateau [x][y]=0;
-			
+				
 	public void render(Graphics g) throws IOException {
 		if(nb==1) {
 		if(this.placed) {
