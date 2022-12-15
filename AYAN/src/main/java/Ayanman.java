@@ -158,8 +158,7 @@ public class Ayanman  {
 			int posY2=(this.x+Game.tileSize/2-Game.tileSize/3)/Game.tileSize;
 			
 			if (this.y>speed && map.plateau[posX][posY1]==0 && map.plateau[posX][posY2]==0) {
-				System.out.println(" i = "+posX+" j = "+posY1);
-				System.out.println(" y = "+(this.y+Game.tileSize/2)+" x = "+(this.x+Game.tileSize/2));
+				
 				return true;
 				}
 			else {return false;}
@@ -169,8 +168,6 @@ public class Ayanman  {
 			int posY2=(this.x+Game.tileSize/2-Game.tileSize/3)/Game.tileSize;
 			
 			if (this.y<Game.HEIGHT-Game.tileSize-speed &&map.plateau[posX][posY1]==0 && map.plateau[posX][posY2]==0) {
-				System.out.println(" i = "+posX+" j = "+posY1);
-				System.out.println(" y = "+(this.y+Game.tileSize/2)+" x = "+(this.x+Game.tileSize/2));
 				return true;
 				}
 			else {return false;}
@@ -179,8 +176,6 @@ public class Ayanman  {
 			int posX2=(this.y+Game.tileSize/2-Game.tileSize/3)/Game.tileSize;
 			int posY=(this.x-speed)/Game.tileSize;
 			if (this.x>speed && map.plateau[posX1][posY]==0 && map.plateau[posX2][posY]==0 ) {
-				System.out.println(" i = "+posX1+" j = "+posY);
-				System.out.println(" y = "+(this.y+Game.tileSize/2)+" x = "+(this.x+Game.tileSize/2));
 				return true;
 				}
 			else {return false;}
@@ -189,8 +184,6 @@ public class Ayanman  {
 			int posX2=(this.y+Game.tileSize/2-Game.tileSize/3)/Game.tileSize;
 			int posY=(this.x+Game.tileSize+speed)/Game.tileSize;
 			if (this.x<Game.WIDTH-Game.tileSize -speed&& map.plateau[posX1][posY]==0 && map.plateau[posX2][posY]==0 ) {
-				System.out.println(" i = "+posX1+" j = "+posY);
-				System.out.println(" y = "+(this.y+Game.tileSize/2)+" x = "+(this.x+Game.tileSize/2));
 				return true;
 				}
 			else {return false;}
