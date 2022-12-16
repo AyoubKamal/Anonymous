@@ -11,3 +11,9 @@
 
 # Sprint 3
 
+- Diagramme de classes : c'est quoi tab[*][*]
+- Diagramme de séquence : pouquoi la géneration de plateau est dans la boucle du jeu ? À quel moment le personnage déplace ?
+- Sprint 4 : pas de fonctionalités à implémenter ? ca veut dire quoi "Finaliser le jeu" ?
+- Pas de répartition des tâches pour le sprint 4, "Rédaction des backlog du sprint4" est dans le sprint 4 ? (les backlog doivent être préparer avant le sprint 4)
+ 
+
