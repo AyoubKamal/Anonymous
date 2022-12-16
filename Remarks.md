@@ -11,3 +11,7 @@
 
 # Sprint 3
 
+- Diagramme de classes : c'est quoi tab[*][*]
+- Diagramme de séquence : pouquoi la géneration de plateau est dans la boucle du jeu ? À quel moment le personnage déplace ?
+- Pas de répartition des tâches pour le sprint 4
+
