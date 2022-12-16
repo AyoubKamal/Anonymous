@@ -13,5 +13,6 @@
 
 - Diagramme de classes : c'est quoi tab[*][*]
 - Diagramme de séquence : pouquoi la géneration de plateau est dans la boucle du jeu ? À quel moment le personnage déplace ?
+- Sprint 4 : pas de fonctionalités à implémenter ?
 - Pas de répartition des tâches pour le sprint 4
 
