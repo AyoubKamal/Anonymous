@@ -14,10 +14,9 @@ public class Monster  {
 			// fantome 2 types ; depla aleat et intellig
 
 	public boolean right, left, up, down;
-	private int speed = 2;
+	private int speed = 1;
 	public int speed2 = 1;
 	public static Labyrinthe map;
-	public static int[][] t;
 	int i,j;
 	private int x;
 	private int y;
@@ -26,34 +25,44 @@ public class Monster  {
 	public int nb=0;
 	public int cmp=0;
 	private boolean wellPlaced = false;
+	public int typeM;
+	public String direct="up";
+	private int b;
 
-	public Monster(int a,int b) throws IOException {
+	public Monster(int a,int b, int typeM) throws IOException {
+		
 		this.x = a;
 		this.y = b;
 		j=this.x/Game.tileSize;
 		i=this.y/Game.tileSize;
+		this.typeM=typeM;
 		if (Labyrinthe.plateau[i][j]==0) {
 			wellPlaced = true;
 			System.out.println("YES");
 		}
-		uploadImagesMonsters();
+		uploadImagesMonsters();	
 	}
-	public Monster() throws IOException {
-		int a = (int)(Math.random() * (Game.WIDTH-1))+1;
-		int b = (int)(Math.random() * (Game.HEIGHT-1))+1;
-		j=this.x/Game.tileSize;
-		i=this.y/Game.tileSize;
+	
+	public Monster(int typeM) throws IOException {
+		int a = (int)(Math.random() * (Game.WIDTH-Game.tileSize))+1;
+		int b = (int)(Math.random() * (Game.HEIGHT-Game.tileSize))+1;
 		this.x = a;
 		this.y = b;
+		j=this.x/Game.tileSize;
+		i=this.y/Game.tileSize;
+		System.out.println("i = "+i+" j = "+j);
 		while(Labyrinthe.plateau[i][j]!=0) {
-			a = (int)(Math.random() * (Game.WIDTH-1))+1;
-			b = (int)(Math.random() * (Game.HEIGHT-1))+1;
-		this.x = a;
-		this.y = b;
-		j=this.x/Game.tileSize;
-		i=this.y/Game.tileSize;
+			a = (int)(Math.random() * (Game.WIDTH-50))+1;
+			b = (int)(Math.random() * (Game.HEIGHT-50))+1;
+			this.x = a;
+			this.y = b;
+			j=a/Game.tileSize;
+			i=b/Game.tileSize;
+			System.out.println("i = "+i+" j = "+j);
 		}
+		
 		wellPlaced = true;
+		this.typeM=typeM;
 		
 		uploadImagesMonsters();
 	}
@@ -65,14 +74,19 @@ public class Monster  {
 	
 	public void uploadImagesMonsters() {
 		try {
-			images_monstres[0]=ImageIO.read(new File("images/monster/bat_down_1.png"));
-			images_monstres[1]=ImageIO.read(new File("images/monster/bat_down_2.png"));
+			images_monstres[0]=ImageIO.read(new File("images/monster/monster2Up.png"));
+			images_monstres[1]=ImageIO.read(new File("images/monster/monster2Down.png"));
+			images_monstres[2]=ImageIO.read(new File("images/monster/redslime_down_1.png"));
+			images_monstres[3]=ImageIO.read(new File("images/monster/redslime_down_2.png"));
+			images_monstres[4]=ImageIO.read(new File("images/monster/bat_down_1.png"));
+			images_monstres[5]=ImageIO.read(new File("images/monster/bat_down_2.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-	}
 		}
-	public void update(Labyrinthe map)  {
+			}
+	
+	/*public void update(Labyrinthe map)  {
 		if (wellPlaced==true) {
 		//int n = (int)(Math.random() * 4);
 		//int [] res =Mouvement_aleat(map);
@@ -91,7 +105,7 @@ public class Monster  {
 		else if (n==3 && res[n]==1) {
 			 y-=15;
 			i-=1;
-		}*/
+		}
 			cmp+=1;
 			if (cmp>6) {
 				cmp=0;
@@ -101,30 +115,117 @@ public class Monster  {
 		}
 		else {System.out.println("Vous n'avez pas bien placé le monstre");}
 	}
+	*/
 	
+	public void Mouvement_aleat(Labyrinthe map) {
+		if (wellPlaced) {
+			
+			if (direct=="up") {
+				
+				if(Colision("up",map)) {
+					this.y-=speed;	
+					direct ="up";
+					
+				}
+				
+				else if (Colision("right",map)) {
+					this.x+=speed;	
+					direct ="right";
+					}
+				
+				else if (Colision("left",map)) {
+					this.x+=speed;	
+					direct ="left";
+					}
+				else if (Colision("down",map)) {
+					this.y+=speed;	
+				direct ="down";
+					}
+				}
+			
+			
+			else if (direct=="right") {
+				
+				 if (Colision("right",map)) {
+					this.x+=speed;	
+					direct ="right";
+					}
+				
+				 else if(Colision("up",map)) {
+					this.y-=speed;	
+					direct ="up";
+					}
+				 
+					else if (Colision("down",map)) {
+						this.y+=speed;	
+					direct ="down";
+						}
+				
+				else if (Colision("left",map)) {
+					this.x+=speed;	
+					direct ="left";
+					}
+				}
+			
+			else if (direct=="down") {
+				
+				if (Colision("down",map)) {
+					this.y+=speed;	
+				direct ="down";
+					}
+				
+				else if (Colision("right",map)) {
+					this.x+=speed;	
+					direct ="right";
+					}
 	
-	public int [] Mouvement_aleat(Labyrinthe map) {
-		t=map.plateau;
-		int [] res=new int [4];
-		if (t[i][j + 1] == 0) {
-			res[0]=1;
-		}
-		 if (t[i+1][j] == 0) {
-			res[1]=1;
-		}
-		 if(j-1>=0) {
-	 if (t[i][j - 1] == 0) {
-			res[2]=1;
-		}
-		 }
-		 if(i-1>=0) {
-		 if (t[i-1][j] == 0) {
-				res[3]=1;
+				else if (Colision("left",map)) {
+					this.x+=speed;	
+					direct ="left";
+					}
+				
+				 else if(Colision("up",map)) {
+					this.y-=speed;	
+					direct ="up";
+					}
+				}
+			
+			
+			else if (direct=="left") {
+				
+				if (Colision("left",map)) {
+					this.x-=speed;	
+				direct ="left";
+					}
+				
+
+	
+				else if (Colision("down",map)) {
+					this.y+=speed;	
+					direct ="down";
+					}
+				
+				 else if(Colision("up",map)) {
+					this.y-=speed;	
+					direct ="up";
+					}
+				
+					else if (Colision("right",map)) {
+						this.x+=speed;	
+						direct ="right";
+						}
+				}
+				cmp+=1;
+				if (cmp>6) {
+					cmp=0;
+					if(nb==1) {nb=0;}
+					else if(nb==0) {nb=1;
+				}
 			}
-		 }
-		return res;
+		}
 	}
-public boolean Colision(String direction,Labyrinthe map) {
+	
+		public boolean Colision(String direction,Labyrinthe map) {
 		
 		if (direction=="up") {
 			int posX =(this.y-speed)/Game.tileSize;
@@ -174,11 +275,17 @@ public boolean Colision(String direction,Labyrinthe map) {
 	}
 
 
-	public void updateIntelligente(Ayanman player,Labyrinthe map) {
+	public void updateIntelligenteColl(Ayanman player,Labyrinthe map) {
 		if (wellPlaced==true) {
+			cmp+=1;
+			if (cmp>6) {
+				cmp=0;
+				if(nb==1) {nb=0;}
+				else if(nb==0) {nb=1;}
+			}
 		int a=player.x;
 		int b=player.y;
-		while(distance(a,b,this.x,this.y)<350 && distance(a,b,this.x,this.y)>50) {
+		while(distance(a,b,this.x,this.y)<350 && distance(a,b,this.x,this.y)>5) {
 			if (this.x>a && Colision("left",map)) {
 				this.x-=speed;
 			}
@@ -189,30 +296,104 @@ public boolean Colision(String direction,Labyrinthe map) {
 				this.y-=speed;
 			}
 		else if (this.y<b  && Colision("down",map)){this.y+=speed;}
-		cmp+=1;
-		if (cmp>6) {
-			cmp=0;
-			if(nb==1) {nb=0;}
-			else if(nb==0) {nb=1;}
-		}
+
 		break;
 	}
 		}
 		else {System.out.println("Vous n'avez pas bien placé le monster");}
+		
+		
 }
-	public int distance(int a, int b , int c , int d) {
-		return (int)Math.sqrt((c-a)*(c-a)+(d-b)*(d-b));
+	public void updateIntellignete (Ayanman Player , Labyrinthe map ) {
+		if (wellPlaced==true) {
+			cmp+=1;
+			if (cmp>6) {
+				cmp=0;
+				if(nb==1) {nb=0;}
+				else if(nb==0) {nb=1;}
+			}
+		int a=Player.x;
+		int b=Player.y;
+		while(distance(a,b,this.x,this.y)<350 && distance(a,b,this.x,this.y)>5 ) {
+			if (this.x>a && this.x > speed) {
+				this.x-=speed;
+			}
+			else if(this.x<a && this.x +speed <Game.WIDTH) {
+				this.x+=speed;
+				}
+			if (this.y>b && this.y>speed) {
+				this.y-=speed;
+			}
+		else if (this.y<b && this.y +speed <Game.HEIGHT){
+			this.y+=speed;}
+		break;
 	}
-
-	public void render(Graphics2D g) {
-		if (wellPlaced ==true){// FANHUI
-		if (nb==0) {
-		g.drawImage(images_monstres[0], x, y,Game.tileSize,Game.tileSize, null);}
-		else if (nb==1) {
-			g.drawImage(images_monstres[1], x, y,Game.tileSize,Game.tileSize, null);}
 		}
+		else {System.out.println("Vous n'avez pas bien placé le monster");}
 	}
 	
+	
+	public int distance(int a, int b , int c , int d) {
+		
+		return (int)Math.sqrt((c-a)*(c-a)+(d-b)*(d-b));
+	
+	}
+	
+	public void update (Ayanman Player,Labyrinthe map) {
+		if (wellPlaced) {
+		if (this.typeM==1) {
+			this.Mouvement_aleat(map);
+		}
+		else if (this.typeM==2) {
+			this.updateIntelligenteColl(Player, map);
+		}
+		else if (this.typeM==3) {
+			this.updateIntellignete(Player,map);
+		}
+	}
+}
+	public void render(Graphics2D g) {
+		System.out.println(this.typeM);
+		if (wellPlaced ==true){
+			if(this.typeM==1) {
+				if (nb==0) {
+					g.drawImage(images_monstres[0], x, y,Game.tileSize,Game.tileSize, null);}
+				else if (nb==1) {
+					g.drawImage(images_monstres[1], x, y,Game.tileSize,Game.tileSize, null);}
+				}
+			
+			else if (this.typeM==2) {
+			if (nb==0) {
+				g.drawImage(images_monstres[2], x, y,Game.tileSize,Game.tileSize, null);}
+				else if (nb==1) {
+					g.drawImage(images_monstres[3], x, y,Game.tileSize,Game.tileSize, null);}			
+		}
+			
+		
+			else if (this.typeM==3) {
+				if (nb==0) {
+					g.drawImage(images_monstres[4], x, y,Game.tileSize,Game.tileSize, null);}
+					else if (nb==1) {
+						g.drawImage(images_monstres[5], x, y,Game.tileSize,Game.tileSize, null);}			
+			}
+				}
+	}
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 
 	public int getSpeed() {
 		return speed;
@@ -221,4 +402,5 @@ public boolean Colision(String direction,Labyrinthe map) {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
 }

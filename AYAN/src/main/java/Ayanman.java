@@ -13,22 +13,32 @@ import java.awt.event.KeyListener;
 import javax.imageio.ImageIO;
 
 public class Ayanman  {
-	public static boolean right, left, up, down;
+	public static boolean right, left, up, down,attaque;
 	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
 	public String direction;
 	private int speed= 4;
 	public static Labyrinthe map;
 	public static int[][] t;
 	int x,y;
+	int i,j;
 	public int spriteCounter=0;
 	public int spriteNum=1;
+	public boolean wellPlaced=false ;
+
 	
 	public Ayanman(int x, int y) throws IOException {
-		//map=new Labyrinthe("Laby.txt");
+		
+		map=new Labyrinthe("Laby.txt");
 		this.x=x;
 		this.y=y;
+		i =this.y/Game.tileSize;
+		j=this.x/Game.tileSize;
 		direction="left";
 		getPlayerImage();
+
+		if(map.plateau[i][j]==0) {
+			this.wellPlaced=true;
+			}
 	}
 	
 
@@ -108,10 +118,12 @@ public class Ayanman  {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	
 	}
 	
 
 	public void update(Labyrinthe map) {
+		if (this.wellPlaced) {
 		//System.out.println(this.up + " "+ this.down +" "+this.left+" "+this.right);
 		if(this.up==true || this.down==true || this.left==true || this.right==true) {
 			//System.out.println("Hello");
@@ -149,7 +161,7 @@ public class Ayanman  {
 			}
 		}
 	}
-	
+}
 	public boolean Colision(String direction,Labyrinthe map) {
 		
 		if (this.up==true) {
@@ -175,6 +187,7 @@ public class Ayanman  {
 			int posX1 =(this.y+Game.tileSize/2+Game.tileSize/3)/Game.tileSize;
 			int posX2=(this.y+Game.tileSize/2-Game.tileSize/3)/Game.tileSize;
 			int posY=(this.x-speed)/Game.tileSize;
+			
 			if (this.x>speed && map.plateau[posX1][posY]==0 && map.plateau[posX2][posY]==0 ) {
 				return true;
 				}
@@ -193,6 +206,7 @@ public class Ayanman  {
 	}
 
 	public void render(Graphics2D g2) {
+		if (this.wellPlaced) {
 
 		// g2.setColor(Color.white);
 		// g2.fillRect(x, y, gp.tileSize, gp.tileSize);
@@ -235,7 +249,7 @@ public class Ayanman  {
 		g2.drawImage(image, x, y,Game.tileSize, Game.tileSize, null);
 	}
 	
-	
+}
 	
 	
 	
@@ -257,6 +271,10 @@ public class Ayanman  {
 		
 		this.y=y;
 	}
-
+	public void attaquer (Labyrinthe map) {
+		if (this.attaque) {
+			
+		}
+	}
 
 }

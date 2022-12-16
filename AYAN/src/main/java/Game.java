@@ -28,10 +28,11 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public int FPS =60;
 	
 	
-	Thread thread; //SUBPROCESS to do multiple things
+	Thread thread; //SUBPROCESS to do multiple things 
 	public static Ayanman player;
 	public static Monster monster1;
 	public static Monster monster2;
+	public static Monster monster3;
 	public static Labyrinthe map;
 	public static Tresor tresor1;
 	public static Tresor tresor2;
@@ -41,8 +42,11 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public static score score ;
 	public static Vie vie;
 	public static Gagner gagner;
+	public static level Level;
 	public static Tresor [] liste_t;
 	public static Tresor [] liste_t1;
+	public static Monster[] liste_monsters;
+	static JFrame frame = new JFrame();
 
 
 	public Game() throws IOException {
@@ -54,15 +58,26 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		//addKeyListener(this);
-		map=new Labyrinthe("Laby.txt");
 		
+	
 		player =new Ayanman(0,0);
-		monster1=new Monster(0,0);
-		monster2=new Monster(0,0);
-		monster2.setSpeed(2);
-		//KeyHandler keyH = new KeyHandler();
+		Level=new level (1);
+		Level.generateLaby();
+		map=Level.map;
+		monster1=new Monster(60,0,1);
+		monster2=new Monster(150,250,2);
+		monster3=new Monster(150,250,3);
+		liste_monsters=new Monster[3];
+		liste_monsters[0]=monster1;
+		liste_monsters[1]=monster2;
+		liste_monsters[2]=monster3;
+		
+		
+		//KeyHandler keyH = new KeyHandler(
+		
 		
 		//score: coeur : gagner
+		
 		
 		tresor1=new Tresor(10,2,map,1);
 		tresor2=new Tresor(5,9,map,1);
@@ -112,8 +127,9 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	    private void update() {
 	
 		player.update(map);
-		monster1.updateIntelligente(player,map);
-		monster2.update(map);
+		monster1.update(player,map);
+		monster2.update(player,map);
+		monster3.update(player,map);
 		score.update_score(map);
 	    vie.update_vie(map);
 	    gagner.update_gagner(map);
@@ -127,6 +143,8 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			map.draw(g2);
 			monster1.render(g2);
 			monster2.render(g2);
+			monster3.render(g2);
+			
 			
 			try {
 				tresor1.render(g2);
@@ -135,7 +153,6 @@ public class Game extends JPanel implements Runnable,KeyListener {
 				coeur2.render(g2);
 				key.render(g2);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			player.render(g2);
@@ -179,7 +196,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		JFrame frame = new JFrame();
 		frame.setTitle(Game.TITLE);
 		frame.add(game);
-	
+		
 		frame.setResizable(false);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -187,6 +204,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 
 		frame.setVisible(true);
 		game.start();
+		
 	  }
 	  
 	  
@@ -201,6 +219,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		if(e.getKeyCode()==KeyEvent.VK_DOWN) player.down=true;
 		if(e.getKeyCode()==KeyEvent.VK_RIGHT) player.right=true;
 		if(e.getKeyCode()==KeyEvent.VK_LEFT) player.left=true;
+		if(e.getKeyCode()==KeyEvent.VK_SPACE) player.attaque=true;
 	}
 
 	public void keyReleased(KeyEvent e) {
