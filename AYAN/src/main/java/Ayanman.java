@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 public class Ayanman  {
 	public static boolean right, left, up, down,attaque;
 	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
+	public BufferedImage upAtt1,upAtt2,downAtt1,downAtt2,leftAtt1,leftAtt2,rightAtt1,rightAtt2;
 	public String direction;
 	private int speed= 4;
 	public static Labyrinthe map;
@@ -35,6 +36,7 @@ public class Ayanman  {
 		j=this.x/Game.tileSize;
 		direction="left";
 		getPlayerImage();
+		getPlayerAttaqueImage();
 
 		if(map.plateau[i][j]==0) {
 			this.wellPlaced=true;
@@ -118,14 +120,42 @@ public class Ayanman  {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		
 	
 	}
+	
+	public void getPlayerAttaqueImage() {
+		try {
+
+			upAtt1 = ImageIO.read(new File("images/player/boy_pick_up_1.png"));
+			upAtt2 = ImageIO.read(new File("images/player/boy_pick_up_2.png"));
+			downAtt1 = ImageIO.read(new File("images/player/boy_pick_down_1.png"));
+			downAtt2 = ImageIO.read(new File("images/player/boy_pick_down_2.png"));
+			leftAtt1 = ImageIO.read(new File("images/player/boy_pick_left_1.png"));
+			leftAtt2 = ImageIO.read(new File("images/player/boy_pick_left_2.png"));
+			rightAtt1 = ImageIO.read(new File("images/player/boy_pick_right_1.png"));
+			rightAtt2 = ImageIO.read(new File("images/player/boy_pick_right_2.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+	
+	}
+	
+	
+	
 	
 
 	public void update(Labyrinthe map) {
 		if (this.wellPlaced) {
+			if(this.attaque) {
+				attaquer();
+			}
+			
 		//System.out.println(this.up + " "+ this.down +" "+this.left+" "+this.right);
-		if(this.up==true || this.down==true || this.left==true || this.right==true) {
+			else if(this.up==true || this.down==true || this.left==true || this.right==true) {
 			//System.out.println("Hello");
 			if (this.up) {
 				direction = "up";
@@ -214,43 +244,94 @@ public class Ayanman  {
 		BufferedImage image = null;
 		switch (direction) {
 		case "up":
-			if (spriteNum == 1) {
-				image = up1;
+			if (!this.attaque) {
+				if (spriteNum == 1) {image = up1;}
+				if (spriteNum == 2) {image = up2;}
 			}
-			if (spriteNum == 2) {
-				image = up2;
+			if(this.attaque) {
+				if (spriteNum == 1) {image = upAtt1;}
+				if (spriteNum == 2) {image = upAtt2;}
 			}
 			break;
 		case "down":
-			if (spriteNum == 1) {
-				image = down1;
+			if(!this.attaque) {
+				if (spriteNum == 1) {
+					image = down1;
+				}
+				if (spriteNum == 2) {
+					image = down2;
+					}
 			}
-			if (spriteNum == 2) {
-				image = down2;
+			if(this.attaque) {
+				if (spriteNum == 1) {
+					image = downAtt1;
+				}
+				if (spriteNum == 2) {
+					image = downAtt2;
+				}
 			}
 			break;
 		case "left":
-			if (spriteNum == 1) {
-				image = left1;
+			if(!this.attaque) {
+				if (spriteNum == 1) {
+					image = left1;
+				}
+				if (spriteNum == 2) {
+					image = left2;
+					}
 			}
-			if (spriteNum == 2) {
-				image = left2;
+			if (this.attaque) {
+				if (spriteNum == 1) {
+					image = leftAtt1;
+				}
+				if (spriteNum == 2) {
+					image = leftAtt2;
+				}
 			}
 			break;
 		case "right":
-			if (spriteNum == 1) {
-				image = right1;
-			}
-			if (spriteNum == 2) {
-				image = right2;
-			}
+			if(!this.attaque) {
+				if (spriteNum == 1) {
+					image = right1;
+				}
+				if (spriteNum == 2) {
+					image = right2;
+					}
+				}
+			if(this.attaque) {
+				if (spriteNum == 1) {
+					image = rightAtt1;
+				}
+				if (spriteNum == 2) {
+					image = rightAtt2;
+					}
+				}
+			
 			break;
 		}
-		g2.drawImage(image, x, y,Game.tileSize, Game.tileSize, null);
+		//g2.drawImage(image, x, y,Game.tileSize, Game.tileSize, null);
+		draw(g2,image,x,y);
 	}
 	
 }
 	
+	public void draw(Graphics2D g2, BufferedImage image, int x , int y) {
+		if (image==downAtt1 || image==downAtt2 ) {
+			g2.drawImage(image, x, y, Game.tileSize,2*Game.tileSize,null);
+		}
+		else if (image==upAtt1 || image==upAtt2  ) {
+			g2.drawImage(image, x, y-Game.tileSize, Game.tileSize,2*Game.tileSize,null);
+		}
+		else if (image==leftAtt1 || image==leftAtt2  ) {
+			g2.drawImage(image, x-Game.tileSize, y, 2*Game.tileSize,Game.tileSize,null);
+		}
+		else if (image==rightAtt1 ||image==rightAtt2 ) {
+			g2.drawImage(image, x, y, 2*Game.tileSize,Game.tileSize,null);
+		}
+		else {
+			g2.drawImage(image, x, y,Game.tileSize,Game.tileSize,null);
+		}
+	}
 	
 	
 	public double getX() {
@@ -268,13 +349,45 @@ public class Ayanman  {
 	}
 	
 	public void setY(int y) {
-		
 		this.y=y;
 	}
-	public void attaquer (Labyrinthe map) {
-		if (this.attaque) {
+	
+	public void attaquer () {
+			spriteCounter++;
+			if(spriteCounter<5) {
+				spriteNum=1;
+			}
+			else if(spriteCounter>5 && spriteCounter<25) {
+				spriteNum=2;
+				checkDammage();
+			}
+			else if (spriteCounter>25) {
+				spriteNum=1;
+				spriteCounter=0;
+				this.attaque=false;
+			}
 			
-		}
 	}
-
+	
+	public void checkDammage() {
+		int a=this.x;
+		int b=this.y;
+		/*switch (direction) {
+		case "up":  b=b-Game.tileSize;
+					a+=Game.tileSize/2;
+		case"down" :b+=Game.tileSize;
+					a+=Game.tileSize/2;
+		case "left"	: a-=Game.tileSize;
+					b+=Game.tileSize/2;
+		case "right" :a+=Game.tileSize;
+					b+=Game.tileSize/2;
+		}	*/
+		for (int i=0;i<Game.liste_monsters.length;i++) {
+			if(Game.liste_monsters[i]!=null) {
+				if ((Math.abs(a-Game.liste_monsters[i].getX())<Game.tileSize && Math.abs(b-Game.liste_monsters[i].getY())<10)||(Math.abs(b-Game.liste_monsters[i].getY())<Game.tileSize && Math.abs(a-Game.liste_monsters[i].getX())<10)) {
+					Game.liste_monsters[i]=null;
+				}
+			}
+		}	
+	}
 }

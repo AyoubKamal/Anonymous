@@ -5,7 +5,14 @@ public class level {
 	Labyrinthe map;
 	
 	public level (int niveau) {
+		
 		this.niveau_selectione=niveau;
+		try {
+			this.generateLaby();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public Labyrinthe generateLaby() throws IOException {
 		if (this.niveau_selectione==1) {

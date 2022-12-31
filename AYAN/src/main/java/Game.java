@@ -60,10 +60,11 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		//addKeyListener(this);
 		
 	
-		player =new Ayanman(0,0);
+		player =new Ayanman(0,60);
 		Level=new level (1);
-		Level.generateLaby();
+		//Level.generateLaby();
 		map=Level.map;
+		
 		monster1=new Monster(60,0,1);
 		monster2=new Monster(150,250,2);
 		monster3=new Monster(150,250,3);
@@ -127,9 +128,16 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	    private void update() {
 	
 		player.update(map);
-		monster1.update(player,map);
-		monster2.update(player,map);
-		monster3.update(player,map);
+		//player.attaquer(map);
+		
+		for (int i=0;i<liste_monsters.length;i++) {
+			if (liste_monsters[i]!=null) {
+					liste_monsters[i].update(player,map);
+			}
+		}
+		//monster1.update(player,map);
+		//monster2.update(player,map);
+		//monster3.update(player,map);
 		score.update_score(map);
 	    vie.update_vie(map);
 	    gagner.update_gagner(map);
@@ -141,11 +149,14 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D) g;
 			map.draw(g2);
-			monster1.render(g2);
-			monster2.render(g2);
-			monster3.render(g2);
-			
-			
+			for (int i=0;i<liste_monsters.length;i++) {
+				if (liste_monsters[i]!=null) {
+			liste_monsters[i].render(g2);
+			//monster1.render(g2);
+			//monster2.render(g2);
+			//monster3.render(g2);
+				}
+			}
 			try {
 				tresor1.render(g2);
 				tresor2.render(g2);
@@ -173,6 +184,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 				
 				update();
 				repaint();
+				
 				
 				try {
 					double remainingTime=nextDrawTime -System.nanoTime();
@@ -227,5 +239,6 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		if(e.getKeyCode()==KeyEvent.VK_DOWN) player.down=false;
 		if(e.getKeyCode()==KeyEvent.VK_RIGHT) player.right=false;
 		if(e.getKeyCode()==KeyEvent.VK_LEFT) player.left=false;	
+		//if(e.getKeyCode()==KeyEvent.VK_SPACE) player.attaque=false;
 	}
 }

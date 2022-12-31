@@ -340,6 +340,7 @@ public class Monster  {
 	}
 	
 	public void update (Ayanman Player,Labyrinthe map) {
+		if(this!=null) {
 		if (wellPlaced) {
 		if (this.typeM==1) {
 			this.Mouvement_aleat(map);
@@ -352,7 +353,9 @@ public class Monster  {
 		}
 	}
 }
+		}
 	public void render(Graphics2D g) {
+		if(this!=null) {
 		System.out.println(this.typeM);
 		if (wellPlaced ==true){
 			if(this.typeM==1) {
@@ -378,7 +381,7 @@ public class Monster  {
 			}
 				}
 	}
-	
+}
 	public int getX() {
 		return x;
 	}
