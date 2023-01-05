@@ -1,3 +1,7 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+
 public class Vie {
 	
 	private static Tresor [] liste_tresories; 
@@ -19,7 +23,7 @@ public class Vie {
 			if ((Math.abs(Game.player.getX()-liste_tresories[i].getX())<20 && Math.abs(Game.player.getY()-liste_tresories[i].getY())<20)) {
 				if(nombre_de_vie<4) {
 				nombre_de_vie+=1;
-				liste_tresories[i].d=;
+				liste_tresories[i]=null;
 				}
 			}
 		}
@@ -57,13 +61,13 @@ public class Vie {
 					
 					
 					if(elementmagic==0) {
-					if(nombre_de_vie>0) {
-						nombre_de_vie-=1;
-					}
-					else {
-						Game.stop();
-					}
-	
+						if(nombre_de_vie>0) {
+							nombre_de_vie-=1;
+						}
+						else {
+							Game.stop();
+						}
+						
 					}
 					if(elementmagic==1) {
 						if(nombre_de_vie>0) {
@@ -71,11 +75,11 @@ public class Vie {
 						}
 						else {
 							Game.stop();
-						}
+							}
 
 						}
 					
-					if (nombre_de_vie>1) {
+					if (nombre_de_vie>0) {
 						changerPlace(laby);
 						}
 					
@@ -95,6 +99,20 @@ public class Vie {
 	}
 }
 	
+	
+	
+	
+	void drawNbVie(Graphics2D g ) {
+		g.setFont(new Font("Arial", Font.BOLD,(int) 2*Game.tileSize/3));
+		g.setPaint(Color.white);
+		//g.setColor((new Color(150,170,3)));
+		String scorePlayer = " Nombre de vie = "+String.valueOf(nombre_de_vie);
+		g.drawString(scorePlayer,-Game.tileSize*9 +Game.tileSize*(Game.getCol()), -(int)Game.tileSize/4+Game.tileSize*(Game.getligne()));
+		//
+		
+	}
+	
+	
 	public int distance(int a, int b , int c , int d) {
 		
 		return (int)Math.sqrt((c-a)*(c-a)+(d-b)*(d-b));
@@ -102,7 +120,7 @@ public class Vie {
 	}
 	
 
-
+	
 
 	public void changerPlace(Labyrinthe laby) {
 		int a,b;

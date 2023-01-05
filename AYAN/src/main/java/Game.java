@@ -27,7 +27,7 @@ import java.io.IOException;
 public class Game extends JPanel implements Runnable,KeyListener {
 	public static boolean isRunning = false;
 	public static final String TITLE = "Ayan-man";
-	public static final int Lev=2;
+	public static final int Lev=3;
 	public final static int originalTileSize = getOriginalTileSize();
 	public final static int echelle = getEchelle();
 	public final static int tileSize = originalTileSize * echelle;
@@ -91,6 +91,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		/*monster1=new Monster(80,80,1);
 		monster2=new Monster(150,250,2);
 		monster3=new Monster(150,250,3);*/
+
 		Level=new level(Lev);
 		map=Level.map;
 		player =new Ayanman(tileSize,tileSize,map);
@@ -202,11 +203,15 @@ public class Game extends JPanel implements Runnable,KeyListener {
 					}
 				porte1.render(g2);
 				porte2.render(g2);
-				if(isRunning==false) {
+				if(isRunning==false&&Gagner.ga==0) {
 					Gagner.drawgameover(g2);
+					}
+				if(isRunning==false && Gagner.ga==1) {
+					Gagner.drawg(g2);
 					}
 				piege.render(g2);
 				score.drawScore(g2);
+				vie.drawNbVie(g2);
 				magic.render(g2);
 			} catch (IOException e) {
 				e.printStackTrace();

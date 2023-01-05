@@ -19,13 +19,13 @@ public class Tresor extends JPanel{
 	
 	private int x;
 	private int y;
-	private static String nomFichier;
 	
 	
 		public int i,j;
 		public int nb;
 		public boolean T;
 		public boolean placed;
+		public int ouvert;
 		//public boolean placed=false;
 	
 	public Tresor(Labyrinthe map,int nb) {
@@ -40,6 +40,7 @@ public class Tresor extends JPanel{
 		this.nb=nb;
 		this.T=true;
 		this.placed=true;
+		this.ouvert=0;
 	}
 	
 	public int getX() {
@@ -89,13 +90,14 @@ public int getJ() {
 			if(annuler()) {
 				Image img = ImageIO.read(new File("images/wall.png"));
 				g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
+				
 
 
 				}
 			else if(!annuler()) {
 				Image img = ImageIO.read(new File("images/wall1.png"));
 				g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
-
+				
 			}
 	}
 

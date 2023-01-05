@@ -37,7 +37,7 @@ public class Monster  {
 		this.typeM=typeM;
 		if (Labyrinthe.plateau[i][j]==0) {
 			System.out.println("YES");
-		}
+		} 
 		uploadImagesMonsters();	
 	}
 	
