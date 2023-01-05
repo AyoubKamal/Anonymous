@@ -106,7 +106,7 @@ public class Vie {
 		g.setFont(new Font("Arial", Font.BOLD,(int) 2*Game.tileSize/3));
 		g.setPaint(Color.white);
 		//g.setColor((new Color(150,170,3)));
-		String scorePlayer = " Nombre de vie = "+String.valueOf(nombre_de_vie);
+		String scorePlayer = " vie = "+String.valueOf(nombre_de_vie);
 		g.drawString(scorePlayer,-Game.tileSize*9 +Game.tileSize*(Game.getCol()), -(int)Game.tileSize/4+Game.tileSize*(Game.getligne()));
 		//
 		
