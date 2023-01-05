@@ -107,6 +107,13 @@ public class Ayanman  {
 			g.drawImage(qa.getimage(0, 0),x,y,null);
 		}
 	}*/
+	
+	
+	
+	
+	
+	
+
 	public void getPlayerImage() {
 		try {
 			up1 = ImageIO.read(new File("images/player/boy_up_1.png"));
@@ -389,5 +396,17 @@ public class Ayanman  {
 				}
 			}
 		}	
+	}
+	
+	
+	public void MonsterNull(Monster [] liste_mon,Labyrinthe map) {
+		for (int i=0;i<liste_mon.length;i++) {
+			int a =liste_mon[i].getX()/Game.tileSize;
+			int b =liste_mon[i].getY()/Game.tileSize;
+			if (map.plateau[b][a]!=0) {
+				liste_mon[i]=null;
+				//System.out.println("Helooooo");
+			}
+		}
 	}
 }

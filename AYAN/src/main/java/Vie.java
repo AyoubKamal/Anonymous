@@ -1,14 +1,15 @@
-
 public class Vie {
 	
 	private static Tresor [] liste_tresories; 
-	public int nombre_de_vie=20;
-	Vie(Tresor [] liste_tresories){
+
+	public static Piege [] liste;
+	public int nombre_de_vie=3;
+	Vie(Tresor [] liste_tresories, Piege [] liste){
 		this.liste_tresories=liste_tresories;
+		this.liste=liste;
 	}
 	
 	public void update_vie(Labyrinthe laby) {
-		
 		System.out.println("nombre de vie restant = "+nombre_de_vie);
 		for (int i=0;i<liste_tresories.length;i++) {
 			if (liste_tresories[i]!=null) {
@@ -21,27 +22,41 @@ public class Vie {
 		}
 			
 	}
-	
-	
+
+		
+		
+		
+		for (int i=0;i<liste.length;i++) {
+			if (liste[i]!=null) {
+			if ((Math.abs(Game.player.getX()-liste[i].getX())<20 && Math.abs(Game.player.getY()-liste[i].getY())<20)) {
+				
+				nombre_de_vie-=1;
+				liste[i]=null;
+			}
+		}
+			
+	}
+
 	
 		for (int i=0;i<Game.liste_monsters.length;i++) {
+
 			if (Game.liste_monsters[i]!=null) {
 				if ((Math.abs(Game.player.getX()-Game.liste_monsters[i].getX())<10 && Math.abs(Game.player.getY()-Game.liste_monsters[i].getY())<10)) {
 					if(nombre_de_vie>1) {
 					nombre_de_vie-=1;
 					changerPlace(laby);
-					//Game.player.setX(0);
-					//Game.player.setY(Game.HEIGHT-49);
 				}
 					
 					else { System.out.println("VOUS AVEZ PERDU !!!! ");
 						Game.stop();
 						Game.frame.dispose();
 					}
+				
 				}
-		}
-	}
-}
+
+			}
+					}
+				}
 	
 	public int distance(int a, int b , int c , int d) {
 		
@@ -49,6 +64,9 @@ public class Vie {
 	
 	}
 	
+
+
+
 	public void changerPlace(Labyrinthe laby) {
 		int a,b;
 		int pos=1;
@@ -82,8 +100,6 @@ public class Vie {
 				}
 				
 		}
-	}
 	
 }
-	
-
+}

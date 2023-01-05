@@ -23,7 +23,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public final static int originalTileSize = 16;
 	public final static int echelle = 3;
 	public final static int tileSize = originalTileSize * echelle;
-	public final static int Nb_col =26,Nb_row=12;
+	public final static int Nb_col =26,Nb_row=13;
 	public static final int WIDTH = Nb_col*tileSize, HEIGHT = Nb_row*tileSize;
 	public int FPS =60;
 	
@@ -46,8 +46,11 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public static Tresor [] liste_t;
 	public static Tresor [] liste_t1;
 	public static Monster[] liste_monsters;
+	public static Porte porte1,porte2;
+	public static Piege piege;
+	public static Piege [] liste3;
 	static JFrame frame = new JFrame();
-
+	
 
 	public Game() throws IOException {
 		
@@ -65,15 +68,20 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		//Level.generateLaby();
 		map=Level.map;
 		
-		monster1=new Monster(60,0,1);
+		monster1=new Monster(80,80,1);
 		monster2=new Monster(150,250,2);
 		monster3=new Monster(150,250,3);
 		liste_monsters=new Monster[3];
 		liste_monsters[0]=monster1;
 		liste_monsters[1]=monster2;
 		liste_monsters[2]=monster3;
+		porte1=new Porte(4,17,map,1);
+		porte2=new Porte(6,5,map,2);
+		piege =new Piege(2,17,map);
+		liste3 =new Piege[1];
+		liste3[0]=piege;
 		
-		
+
 		//KeyHandler keyH = new KeyHandler(
 		
 		
@@ -98,8 +106,10 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		liste_t1[1]=coeur2;
 		
 		score=new score(liste_t);
-		vie=new Vie(liste_t1);
+		vie=new Vie(liste_t1,liste3);
+	
 		gagner=new Gagner(key);
+		player.MonsterNull(liste_monsters, map);
 
 	}
 
@@ -141,7 +151,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		score.update_score(map);
 	    vie.update_vie(map);
 	    gagner.update_gagner(map);
-
+	    
 	}
 	    
 	    
@@ -163,6 +173,9 @@ public class Game extends JPanel implements Runnable,KeyListener {
 				coeur1.render(g2);
 				coeur2.render(g2);
 				key.render(g2);
+				porte1.render(g2);
+				porte2.render(g2);
+				piege.render(g2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -208,21 +221,18 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		JFrame frame = new JFrame();
 		frame.setTitle(Game.TITLE);
 		frame.add(game);
-		
 		frame.setResizable(false);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-
 		frame.setVisible(true);
 		game.start();
-		
+
 	  }
-	  
 	  
 	
 	public void keyTyped(KeyEvent e) {
-
+		
 	}
 
 	public void keyPressed(KeyEvent e) {

@@ -24,7 +24,6 @@ public class Monster  {
 	BufferedImage [] images_monstres=new BufferedImage[8];
 	public int nb=0;
 	public int cmp=0;
-	private boolean wellPlaced = false;
 	public int typeM;
 	public String direct="up";
 	private int b;
@@ -37,7 +36,6 @@ public class Monster  {
 		i=this.y/Game.tileSize;
 		this.typeM=typeM;
 		if (Labyrinthe.plateau[i][j]==0) {
-			wellPlaced = true;
 			System.out.println("YES");
 		}
 		uploadImagesMonsters();	
@@ -61,7 +59,6 @@ public class Monster  {
 			System.out.println("i = "+i+" j = "+j);
 		}
 		
-		wellPlaced = true;
 		this.typeM=typeM;
 		
 		uploadImagesMonsters();
@@ -118,7 +115,6 @@ public class Monster  {
 	*/
 	
 	public void Mouvement_aleat(Labyrinthe map) {
-		if (wellPlaced) {
 			
 			if (direct=="up") {
 				
@@ -223,7 +219,7 @@ public class Monster  {
 				}
 			}
 		}
-	}
+	
 	
 		public boolean Colision(String direction,Labyrinthe map) {
 		
@@ -276,7 +272,7 @@ public class Monster  {
 
 
 	public void updateIntelligenteColl(Ayanman player,Labyrinthe map) {
-		if (wellPlaced==true) {
+
 			cmp+=1;
 			if (cmp>6) {
 				cmp=0;
@@ -299,13 +295,8 @@ public class Monster  {
 
 		break;
 	}
-		}
-		else {System.out.println("Vous n'avez pas bien placé le monster");}
-		
-		
-}
+}	
 	public void updateIntellignete (Ayanman Player , Labyrinthe map ) {
-		if (wellPlaced==true) {
 			cmp+=1;
 			if (cmp>6) {
 				cmp=0;
@@ -329,9 +320,7 @@ public class Monster  {
 		break;
 	}
 		}
-		else {System.out.println("Vous n'avez pas bien placé le monster");}
-	}
-	
+
 	
 	public int distance(int a, int b , int c , int d) {
 		
@@ -340,8 +329,7 @@ public class Monster  {
 	}
 	
 	public void update (Ayanman Player,Labyrinthe map) {
-		if(this!=null) {
-		if (wellPlaced) {
+
 		if (this.typeM==1) {
 			this.Mouvement_aleat(map);
 		}
@@ -352,12 +340,10 @@ public class Monster  {
 			this.updateIntellignete(Player,map);
 		}
 	}
-}
-		}
+
 	public void render(Graphics2D g) {
 		if(this!=null) {
 		System.out.println(this.typeM);
-		if (wellPlaced ==true){
 			if(this.typeM==1) {
 				if (nb==0) {
 					g.drawImage(images_monstres[0], x, y,Game.tileSize,Game.tileSize, null);}
@@ -381,7 +367,7 @@ public class Monster  {
 			}
 				}
 	}
-}
+
 	public int getX() {
 		return x;
 	}
