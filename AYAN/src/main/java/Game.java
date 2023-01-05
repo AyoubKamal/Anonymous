@@ -18,13 +18,13 @@ import java.io.IOException;
 public class Game extends JPanel implements Runnable,KeyListener {
 	public static boolean isRunning = false;
 	public static final String TITLE = "Ayan-man";
-
-
+	public static final int Lev=3;
 	public final static int originalTileSize = 16;
 	public final static int echelle = 3;
 	public final static int tileSize = originalTileSize * echelle;
-	public final static int Nb_col =26,Nb_row=13;
-	public static final int WIDTH = Nb_col*tileSize, HEIGHT = Nb_row*tileSize;
+	public static int Nb_col=getCol();
+	public static int Nb_row=getligne();
+	public static int WIDTH = Nb_col*tileSize, HEIGHT = Nb_row*tileSize;
 	public int FPS =60;
 	
 	
@@ -52,6 +52,17 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	static JFrame frame = new JFrame();
 	
 
+	
+	public static int getCol() {
+		Level=new level (Lev);
+		int c1=Level.col;
+		return c1;
+	}
+	public static int getligne() {
+		Level=new level (Lev);
+		int c1=Level.ligne;
+		return c1;
+	}
 	public Game() throws IOException {
 		
 		Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
@@ -64,7 +75,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		
 	
 		player =new Ayanman(0,60);
-		Level=new level (1);
+		Level=new level (Lev);
 		//Level.generateLaby();
 		map=Level.map;
 		
