@@ -28,18 +28,43 @@ public class Porte extends JPanel{
 		public boolean T;
 		public boolean placed=false;
 	
-	public Porte(int i, int j,Labyrinthe map,int nb) {
-		if(map.plateau[i][j]==0) {
-			this.placed=true;
-			}
+	public Porte(Labyrinthe map,int nb) {
+		if (nb==1) {
+		int j = (int)(Math.random() * (Game.getCol()-1));
+		int i = (int)(Math.random() * (Game.getligne()-1));
+		while(map.plateau[i][j]!=0) {
+			j = (int)(Math.random() * (Game.getCol()-1));
+			i = (int)(Math.random() * (Game.getligne()-1));
+		}
+		this.x = j*Game.tileSize;
+		this.y = i*Game.tileSize;
 		this.nb=nb;
-		this.y=i*Game.tileSize;
-		this.x=j*Game.tileSize;
 		this.T=true;
+		this.placed=true;}
+		else {
+			int j = (int)(Math.random() * (Game.getCol()-1));
+			int i = (int)(Math.random() * (Game.getligne()-1));
+			this.x = j*Game.tileSize;
+			this.y = i*Game.tileSize;
+			while(map.plateau[i][j]!=0 || distance(x,y,(int)Game.porte1.getX(),(int)Game.porte1.getY())<200) {
+				j = (int)(Math.random() * (Game.getCol()-1));
+				i = (int)(Math.random() * (Game.getligne()-1));
+				this.x = j*Game.tileSize;
+				this.y = i*Game.tileSize;
+			}
+
+			this.nb=nb;
+			this.T=true;
+			this.placed=true;
+		}
 
 		
 	}
+	public int distance(int a, int b , int c , int d) {
+		
+		return (int)Math.sqrt((c-a)*(c-a)+(d-b)*(d-b));
 	
+	}
 	public int getX() {
 		
 		return x;
@@ -81,8 +106,8 @@ public int getJ() {
 		else {
 			Image img = ImageIO.read(new File("images/door.png"));
 			g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
-			Game.player.setX(Game.porte2.getX());
-			Game.player.setY(Game.porte2.getY());
+			Game.player.setX(Game.porte2.getX()+10);
+			Game.player.setY(Game.porte2.getY()+10);
 			T=true;
 		}
 	}
@@ -94,14 +119,14 @@ public int getJ() {
 			if(this.placed) {
 			if(annuler()) {
 			Image img = ImageIO.read(new File("images/doorr.png"));
-			g.drawImage(img, x+10,y+10 ,Game.tileSize-10,Game.tileSize-10,null,this);
+			g.drawImage(img, x+10,y+10 ,Game.tileSize-15,Game.tileSize-15,null,this);
 
 			}
 			else {
 				Image img = ImageIO.read(new File("images/doorr.png"));
-				g.drawImage(img, x+10,y+10 ,Game.tileSize-10,Game.tileSize-10,null,this);
-				Game.player.setX(Game.porte1.getX()+34);
-				Game.player.setY(Game.porte1.getY()+34);
+				g.drawImage(img, x+10,y+10 ,Game.tileSize-15,Game.tileSize-15,null,this);
+				Game.player.setX(Game.porte1.getX()+15);
+				Game.player.setY(Game.porte1.getY()+15);
 				T=true;
 			}
 		}
@@ -115,7 +140,7 @@ public int getJ() {
 	}
 	public boolean annuler() {
 		if(this.placed) {
-		if ((Math.abs(Game.player.getX()-this.getX())<20 && Math.abs(Game.player.getY()-this.getY())<20))  {
+		if ((Math.abs(Game.player.getX()-this.getX())<10 && Math.abs(Game.player.getY()-this.getY())<10))  {
 			this.T=false;
 		}
 		return T;

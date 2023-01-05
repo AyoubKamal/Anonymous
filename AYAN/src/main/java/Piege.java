@@ -27,12 +27,15 @@ public class Piege extends JPanel{
 		public boolean T;
 		public boolean placed=false;
 	
-	public Piege(int i, int j,Labyrinthe map) {
-		if(map.plateau[i][j]==0) {
-			this.placed=true;
-			}
-		this.y=i*Game.tileSize;
-		this.x=j*Game.tileSize;
+	public Piege(Labyrinthe map) {
+		int j = (int)(Math.random() * (Game.getCol()-1));
+		int i = (int)(Math.random() * (Game.getligne()-1));
+		while(map.plateau[i][j]!=0) {
+			j = (int)(Math.random() * (Game.getCol()-1));
+			i = (int)(Math.random() * (Game.getligne()-1));
+		}
+		this.x = j*Game.tileSize;
+		this.y = i*Game.tileSize;
 		this.T=true;
 
 		
@@ -70,24 +73,19 @@ public int getJ() {
 				
 	public void render(Graphics g) throws IOException {
 		
-		if(this.placed) {
+		
 		if(annuler()) {
 		Image img = ImageIO.read(new File("images/piege.png"));
 		g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
 		}
 
 	}
-		else {
-			System.out.println("votre Porte n'est pas bien placï¿½");
-		}
-	}
 	public boolean annuler() {
-		if(this.placed) {
+		
 		if ((Math.abs(Game.player.getX()-this.getX())<20 && Math.abs(Game.player.getY()-this.getY())<20))  {
 			this.T=false;
 		}
 		return T;
-		}
-	return false;
+		
 	}
 }

@@ -84,7 +84,6 @@ public int getJ() {
 	public boolean annuler() {
 		if(this.placed) {
 		if ((Math.abs(Game.player.getX()-this.getX())<20 && Math.abs(Game.player.getY()-this.getY())<20))  {
-			elementmagic=1;
 			this.T=false;
 			
 		}

@@ -12,7 +12,7 @@ public class level {
 	Monster monster3;
 	Monster monster4;
 	Monster monster5;
-	Tresor tresor1,tresor2,tresor3,tresor4,tresor5,tresor6,tresor7;
+	Tresor tresor1,tresor2,tresor3,tresor4,tresor5,tresor6,tresor7,tresor8;
 	
 	
 	public level (int niveau) {
@@ -80,25 +80,49 @@ public class level {
 	}
 	
 	public Tresor [] generateTresors1(Labyrinthe map) throws IOException{
-		if (this.niveau_selectione==1) {
 			tresor1=new Tresor(map,1);
 			tresor2=new Tresor(map,1);
 			tresor3=new Tresor(map,1);
-		}
-		else if (this.niveau_selectione==1) {
-			tresor1=new Tresor(map,1);
-			tresor2=new Tresor(map,1);
-			tresor3=new Tresor(map,1);
-			tresor4=new Tresor (map,1);
-		}
-		else if (this.niveau_selectione==1) {
-			tresor1=new Tresor(map,1);
-			tresor2=new Tresor(map,1);
-			tresor3=new Tresor(map,1);
-			tresor4=new Tresor (map,1);
-			tresor5=new Tresor (map,1);
-		}
-		Tresor [] liste_mons = {tresor1,tresor2,tresor3,tresor4,tresor5};
+			tresor4=new Tresor(map,1);
+		Tresor [] liste_mons = {tresor1,tresor2,tresor3,tresor4};
 		return liste_mons;
-	}*/
+	}
+	
+	
+	public Tresor [] generateTresors2(Labyrinthe map) throws IOException{
+		if (this.niveau_selectione==1) {
+
+			tresor5=new Tresor(map,2);
+		}
+		else if (this.niveau_selectione==2) {
+
+			tresor5=new Tresor(map,2);
+			tresor6=new Tresor (map,2);
+		}
+		else if (this.niveau_selectione==3) {
+
+			tresor5=new Tresor (map,2);
+			tresor6=new Tresor (map,2);
+			tresor7=new Tresor(map,2);
+		}
+		Tresor [] liste_mons = {tresor5,tresor6,tresor7};
+		return liste_mons;
+	}
+	
+	
+	
+	
+	
+	
+	
+	public Tresor generateTresors3(Labyrinthe map) throws IOException{
+		tresor8=new Tresor (map,3);
+		return tresor8;
+	}
+	
+	
+	
+	
+	
+	
 }

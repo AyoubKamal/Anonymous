@@ -27,7 +27,7 @@ import java.io.IOException;
 public class Game extends JPanel implements Runnable,KeyListener {
 	public static boolean isRunning = false;
 	public static final String TITLE = "Ayan-man";
-	public static final int Lev=1;
+	public static final int Lev=2;
 	public final static int originalTileSize = getOriginalTileSize();
 	public final static int echelle = getEchelle();
 	public final static int tileSize = originalTileSize * echelle;
@@ -50,9 +50,11 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public static Magic magic;
 	public static Gagner gagner;
 	public static level Level;
-	public static Tresor [] liste_t;
-	public static Tresor [] liste_t1;
+	public static Tresor [] liste_tresor_1;
+	public static Tresor [] liste_tresor_2;
+	public static Tresor []  liste_tresor_1_1;
 	public static Monster[] liste_monsters;
+	public static Magic [] listem;
 	public static Porte porte1,porte2;
 	public static Piege piege;
 	public static Piege [] liste3;
@@ -96,30 +98,21 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		/*liste_monsters[0]=monster1;
 		liste_monsters[1]=monster2;
 		liste_monsters[2]=monster3;*/
-		porte1=new Porte(4,17,map,1);
-		porte2=new Porte(6,5,map,2);
-		piege =new Piege(2,17,map);
+		porte1=new Porte(map,1);
+		porte2=new Porte(map,2);
+		piege =new Piege(map);
 		liste3 =new Piege[1];
 		liste3[0]=piege;
 		
 		magic = new Magic(5,5,map);
-		
-		tresor1=new Tresor(10,2,map,1);
-		tresor2=new Tresor(5,9,map,1);
-		coeur1=new Tresor(2,10,map,2);
-		coeur2=new Tresor(6,5,map,2);
-		key=new Tresor(10,24,map,3);
-		
-		liste_t=new Tresor[2];
-		liste_t[0]=tresor1;
-		liste_t[1]=tresor2;
-		
-		liste_t1=new Tresor[2];
-		liste_t1[0]=coeur1;
-		liste_t1[1]=coeur2;
-		
-		score=new score(liste_t);
-		vie=new Vie(liste_t1,liste3);
+		listem=new Magic[1];
+		listem[0]=magic;
+		key=Level.generateTresors3(map);
+		liste_tresor_1=Level.generateTresors1(map);
+		liste_tresor_2=Level.generateTresors2(map);
+		liste_tresor_1_1=Level.generateTresors1(map);
+		score=new score(liste_tresor_1);
+		vie=new Vie(liste_tresor_2,liste3,listem);
 	
 		gagner=new Gagner(key);
 		
@@ -177,9 +170,6 @@ public class Game extends JPanel implements Runnable,KeyListener {
 					liste_monsters[i].update(player,map);
 			}
 		}
-		//monster1.update(player,map);
-		//monster2.update(player,map);
-		//monster3.update(player,map);
 		score.update_score(map);
 	    vie.update_vie(map);
 	    gagner.update_gagner(map);
@@ -193,17 +183,28 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			map.draw(g2);
 			for (int i=0;i<liste_monsters.length;i++) {
 				if (liste_monsters[i]!=null) {
-			liste_monsters[i].render(g2);
+					liste_monsters[i].render(g2);
 				}
 			}
 			try {
-				tresor1.render(g2);
-				tresor2.render(g2);
-				coeur1.render(g2);
-				coeur2.render(g2);
-				key.render(g2);
+				for (int i=0;i<liste_tresor_1.length;i++) {
+					if (liste_tresor_1[i]!=null) {
+						liste_tresor_1[i].render(g2);
+					}
+				}
+					for (int i=0;i<liste_tresor_2.length;i++) {
+						if (liste_tresor_2[i]!=null) {
+							liste_tresor_2[i].render(g2);
+						}
+					}
+					if (key!=null) {
+						key.render(g2);
+					}
 				porte1.render(g2);
 				porte2.render(g2);
+				if(isRunning==false) {
+					Gagner.drawgameover(g2);
+					}
 				piege.render(g2);
 				score.drawScore(g2);
 				magic.render(g2);

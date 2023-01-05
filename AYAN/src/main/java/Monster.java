@@ -14,7 +14,7 @@ public class Monster  {
 			// fantome 2 types ; depla aleat et intellig
 
 	public boolean right, left, up, down;
-	private int speed = 1;
+	public static int speed = 1;
 	public int speed2 = 1;
 	public static Labyrinthe map;
 	int i,j;

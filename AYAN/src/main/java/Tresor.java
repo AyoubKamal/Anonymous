@@ -25,6 +25,7 @@ public class Tresor extends JPanel{
 		public int i,j;
 		public int nb;
 		public boolean T;
+		public boolean placed;
 		//public boolean placed=false;
 	
 	public Tresor(Labyrinthe map,int nb) {
@@ -38,6 +39,7 @@ public class Tresor extends JPanel{
 		this.y = i*Game.tileSize;
 		this.nb=nb;
 		this.T=true;
+		this.placed=true;
 	}
 	
 	public int getX() {
@@ -88,11 +90,13 @@ public int getJ() {
 				Image img = ImageIO.read(new File("images/wall.png"));
 				g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
 
+
 				}
-		else {
-			Image img = ImageIO.read(new File("images/wall1.png"));
-			g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
-		}
+			else if(!annuler()) {
+				Image img = ImageIO.read(new File("images/wall1.png"));
+				g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
+
+			}
 	}
 
 		
@@ -118,12 +122,12 @@ public int getJ() {
 		}
 	}
 	public boolean annuler() {
-
+		if(this.placed) {
 		if ((Math.abs(Game.player.getX()-this.getX())<20 && Math.abs(Game.player.getY()-this.getY())<20))  {
 			this.T=false;
-		}
+			}
 		return T;
-		
-	
+		}
+	return false;
 	}
 }

@@ -5,17 +5,17 @@ import java.awt.Graphics2D;
 
 public class score  {
 
-	private static Tresor [] liste_tresories; 
+	private  Tresor [] liste_tresories; 
 	private int score =0;
-	score(Tresor [] liste_tresories){
-		this.liste_tresories=liste_tresories;
+	score(Tresor [] liste_tresorie){
+		liste_tresories=liste_tresorie;
 	}
 	public void update_score(Labyrinthe laby) {
 		int a,b;
 		for (int i=0;i<liste_tresories.length;i++) {
 			if (liste_tresories[i]!=null) {
-				a=liste_tresories[i].getI();
-				b=liste_tresories[i].getJ();
+					a=liste_tresories[i].getI();
+					b=liste_tresories[i].getJ();
 			if ((Math.abs(Game.player.getX()-liste_tresories[i].getX())<20 && Math.abs(Game.player.getY()-liste_tresories[i].getY())<20)) {
 				score+=50;
 				liste_tresories[i]=null;
@@ -40,10 +40,10 @@ public class score  {
 	
 	
 	void drawScore(Graphics2D g ) {
-		g.setFont(new Font("Arial", Font.PLAIN, 40));
-		String scorePlayer = " Score = "+String.valueOf(score);
-		g.drawString(scorePlayer, 100, -(int)Game.tileSize/4+Game.tileSize*(Game.getligne()));
-		
+		g.setFont(new Font("Arial", Font.PLAIN, 30));
+		//String scorePlayer = " Score = "+String.valueOf(score);
+		g.drawString(String.valueOf(score), 100, -(int)Game.tileSize/4+Game.tileSize*(Game.getligne()));
+		//g.setColor((new Color(150,170,3)));
 		
 	}
 }

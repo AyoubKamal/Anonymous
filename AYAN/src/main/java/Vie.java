@@ -4,9 +4,12 @@ public class Vie {
 
 	public static Piege [] liste;
 	public int nombre_de_vie=3;
-	Vie(Tresor [] liste_tresories, Piege [] liste){
+	public static Magic [] listem;
+	public static int elementmagic=0;
+	Vie(Tresor [] liste_tresories, Piege [] liste, Magic [] listem){
 		this.liste_tresories=liste_tresories;
 		this.liste=liste;
+		this.listem=listem;
 	}
 	
 	public void update_vie(Labyrinthe laby) {
@@ -16,7 +19,7 @@ public class Vie {
 			if ((Math.abs(Game.player.getX()-liste_tresories[i].getX())<20 && Math.abs(Game.player.getY()-liste_tresories[i].getY())<20)) {
 				if(nombre_de_vie<4) {
 				nombre_de_vie+=1;
-				liste_tresories[i]=null;
+				liste_tresories[i].d=;
 				}
 			}
 		}
@@ -24,7 +27,16 @@ public class Vie {
 	}
 
 		
-		
+		for (int i=0;i<liste.length;i++) {
+			if (listem[i]!=null) {
+			if ((Math.abs(Game.player.getX()-listem[i].getX())<20 && Math.abs(Game.player.getY()-listem[i].getY())<20)) {
+				
+				elementmagic=1;
+				listem[i]=null;
+			}
+		}
+			
+	}
 		
 		for (int i=0;i<liste.length;i++) {
 			if (liste[i]!=null) {
@@ -44,7 +56,7 @@ public class Vie {
 				if ((Math.abs(Game.player.getX()-Game.liste_monsters[i].getX())<10 && Math.abs(Game.player.getY()-Game.liste_monsters[i].getY())<10)) {
 					
 					
-					if(Magic.elementmagic==0) {
+					if(elementmagic==0) {
 					if(nombre_de_vie>0) {
 						nombre_de_vie-=1;
 					}
@@ -53,9 +65,9 @@ public class Vie {
 					}
 	
 					}
-					if(Magic.elementmagic==1) {
+					if(elementmagic==1) {
 						if(nombre_de_vie>0) {
-							Magic.elementmagic=0;
+							elementmagic=0;
 						}
 						else {
 							Game.stop();

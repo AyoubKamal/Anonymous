@@ -119,14 +119,14 @@ public static void LireFichier() throws IOException {
 		}
 
 	public void draw (Graphics2D g) {
-		if(Magic.elementmagic==0) {
+		if(Vie.elementmagic==0) {
 			for (int i=0;i<Game.Nb_row;i++) {
 				for (int j=0;j<Game.Nb_col;j++) {
 					g.drawImage(images[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);				
 				}
 			}
 			}
-			else if(Magic.elementmagic==1) {
+			else if(Vie.elementmagic==1) {
 			for (int i=0;i<Game.Nb_row;i++) {
 				for (int j=0;j<Game.Nb_col;j++) {
 					g.drawImage(images2[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);				
