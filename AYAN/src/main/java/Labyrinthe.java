@@ -20,6 +20,7 @@ public class Labyrinthe extends JPanel {
 	public static int [][] plateau;
 	public static int [] dim;
 	BufferedImage[] images =new BufferedImage [15];
+	BufferedImage[] images2 =new BufferedImage [15];
 	public boolean [] colision =new boolean [15];
 	
 
@@ -30,7 +31,10 @@ public class Labyrinthe extends JPanel {
 		LireFichier();
 		images[1]=ImageIO.read(new File("images/tiles/wall.png"));
 		images[0]=ImageIO.read(new File("images/tiles/grass.png"));
-		images[2]=ImageIO.read(new File("images/tiles/water.png"));
+
+		
+		images2[1]=ImageIO.read(new File("images/tiles/wall.png"));
+		images2[0]=ImageIO.read(new File("images/tiles/grass2.png"));
 		colision[0]=true;
 		colision[1]=false;
 		colision[2]=true;
@@ -115,15 +119,20 @@ public static void LireFichier() throws IOException {
 		}
 
 	public void draw (Graphics2D g) {
-		for (int i=0;i<Game.Nb_row;i++) {
-			for (int j=0;j<Game.Nb_col;j++) {
-				g.drawImage(images[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);				
+		if(Magic.elementmagic==0) {
+			for (int i=0;i<Game.Nb_row;i++) {
+				for (int j=0;j<Game.Nb_col;j++) {
+					g.drawImage(images[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);				
+				}
 			}
-		}
-			
-	}
-	
-	
-	
+			}
+			else if(Magic.elementmagic==1) {
+			for (int i=0;i<Game.Nb_row;i++) {
+				for (int j=0;j<Game.Nb_col;j++) {
+					g.drawImage(images2[plateau[i][j]],j*Game.tileSize,i*Game.tileSize,Game.tileSize,Game.tileSize,null);				
+				}
+			}
+			}
 
+	}
 }

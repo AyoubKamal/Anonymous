@@ -42,21 +42,46 @@ public class Vie {
 
 			if (Game.liste_monsters[i]!=null) {
 				if ((Math.abs(Game.player.getX()-Game.liste_monsters[i].getX())<10 && Math.abs(Game.player.getY()-Game.liste_monsters[i].getY())<10)) {
-					if(nombre_de_vie>1) {
-					nombre_de_vie-=1;
-					changerPlace(laby);
-				}
 					
-					else { System.out.println("VOUS AVEZ PERDU !!!! ");
-						Game.stop();
-						Game.frame.dispose();
+					
+					if(Magic.elementmagic==0) {
+					if(nombre_de_vie>0) {
+						nombre_de_vie-=1;
 					}
-				
+					else {
+						Game.stop();
+					}
+	
+					}
+					if(Magic.elementmagic==1) {
+						if(nombre_de_vie>0) {
+							Magic.elementmagic=0;
+						}
+						else {
+							Game.stop();
+						}
+
+						}
+					
+					if (nombre_de_vie>1) {
+						changerPlace(laby);
+						}
+					
 				}
 
 			}
-					}
-				}
+		}
+		
+		
+		
+		
+		if (nombre_de_vie==0) {
+		
+		 System.out.println("VOUS AVEZ PERDU !!!! ");
+		 Game.stop();
+		//Game.frame.dispose();
+	}
+}
 	
 	public int distance(int a, int b , int c , int d) {
 		
@@ -78,7 +103,7 @@ public class Vie {
 						if (Game.liste_monsters[m]!=null) {
 							if (laby.plateau[i][k]!=0 || distance(k*Game.tileSize,i*Game.tileSize,Game.liste_monsters[m].getX(),Game.liste_monsters[m].getY())<150) {
 								pos=0;
-								System.out.println("Hello world");
+								//System.out.println("Hello world");
 								break;
 						}
 					}

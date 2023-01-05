@@ -1,5 +1,7 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class score  {
 
@@ -33,5 +35,15 @@ public class score  {
 	}
 	public void setScore(int score) {
 		this.score = score;
+	}
+	
+	
+	
+	void drawScore(Graphics2D g ) {
+		g.setFont(new Font("Arial", Font.PLAIN, 40));
+		String scorePlayer = " Score = "+String.valueOf(score);
+		g.drawString(scorePlayer, 100, -(int)Game.tileSize/4+Game.tileSize*(Game.getligne()));
+		
+		
 	}
 }

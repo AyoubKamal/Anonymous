@@ -41,23 +41,16 @@ public class Monster  {
 		uploadImagesMonsters();	
 	}
 	
-	public Monster(int typeM) throws IOException {
-		int a = (int)(Math.random() * (Game.WIDTH-Game.tileSize))+1;
-		int b = (int)(Math.random() * (Game.HEIGHT-Game.tileSize))+1;
-		this.x = a;
-		this.y = b;
-		j=this.x/Game.tileSize;
-		i=this.y/Game.tileSize;
-		System.out.println("i = "+i+" j = "+j);
-		while(Labyrinthe.plateau[i][j]!=0) {
-			a = (int)(Math.random() * (Game.WIDTH-50))+1;
-			b = (int)(Math.random() * (Game.HEIGHT-50))+1;
-			this.x = a;
-			this.y = b;
-			j=a/Game.tileSize;
-			i=b/Game.tileSize;
-			System.out.println("i = "+i+" j = "+j);
+	public Monster(Labyrinthe map,int typeM) throws IOException {
+
+		int j = (int)(Math.random() * (Game.getCol()-1));
+		int i = (int)(Math.random() * (Game.getligne()-1));
+		while(map.plateau[i][j]!=0) {
+			j = (int)(Math.random() * (Game.getCol()-1));
+			i = (int)(Math.random() * (Game.getligne()-1));
 		}
+		this.x = j*Game.tileSize;
+		this.y = i*Game.tileSize;
 		
 		this.typeM=typeM;
 		

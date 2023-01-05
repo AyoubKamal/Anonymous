@@ -25,18 +25,19 @@ public class Tresor extends JPanel{
 		public int i,j;
 		public int nb;
 		public boolean T;
-		public boolean placed=false;
+		//public boolean placed=false;
 	
-	public Tresor(int i, int j,Labyrinthe map,int nb) {
-		if(map.plateau[i][j]==0) {
-			this.placed=true;
-			}
+	public Tresor(Labyrinthe map,int nb) {
+		int j = (int)(Math.random() * (Game.getCol()-1));
+		int i = (int)(Math.random() * (Game.getligne()-1));
+		while(map.plateau[i][j]!=0) {
+			j = (int)(Math.random() * (Game.getCol()-1));
+			i = (int)(Math.random() * (Game.getligne()-1));
+		}
+		this.x = j*Game.tileSize;
+		this.y = i*Game.tileSize;
 		this.nb=nb;
-		this.y=i*Game.tileSize;
-		this.x=j*Game.tileSize;
 		this.T=true;
-
-		
 	}
 	
 	public int getX() {
@@ -82,54 +83,47 @@ public int getJ() {
 				
 	public void render(Graphics g) throws IOException {
 		if(nb==1) {
-		if(this.placed) {
-		if(annuler()) {
-		Image img = ImageIO.read(new File("images/wall.png"));
-		g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
+		
+			if(annuler()) {
+				Image img = ImageIO.read(new File("images/wall.png"));
+				g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
 
-		}
+				}
 		else {
 			Image img = ImageIO.read(new File("images/wall1.png"));
 			g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
 		}
 	}
-		else {
-			System.out.println("votre tresor n'est pas bien plac�");
-		}
-		}
+
+		
 		else if(nb==2) {
-			if(this.placed) {
+
 				if(annuler()) {
-				Image img = ImageIO.read(new File("images/coeur.png"));
-				g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
+					Image img = ImageIO.read(new File("images/coeur.png"));
+					g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
 				}
 			}
-				else {
-					System.out.println("votre tresor n'est pas bien plac�");
-				}
-		}
+				
+		
 		else if(nb==3) {
-			if(this.placed) {
+
 				if(annuler()) {
 				Image img = ImageIO.read(new File("images/key.png"));
 				g.drawImage(img, x+10,y+10 ,Game.tileSize-20,Game.tileSize-20,null,this);
 				}
-			}
-				else {
-					System.out.println("votre tresor n'est pas bien plac�");
-				}
+
 		}
 		else {
 			System.out.println("nombre non valide");
 		}
 	}
 	public boolean annuler() {
-		if(this.placed) {
+
 		if ((Math.abs(Game.player.getX()-this.getX())<20 && Math.abs(Game.player.getY()-this.getY())<20))  {
 			this.T=false;
 		}
 		return T;
-		}
-	return false;
+		
+	
 	}
 }

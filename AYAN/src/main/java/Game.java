@@ -1,13 +1,22 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import java.io.BufferedReader;
@@ -18,9 +27,9 @@ import java.io.IOException;
 public class Game extends JPanel implements Runnable,KeyListener {
 	public static boolean isRunning = false;
 	public static final String TITLE = "Ayan-man";
-	public static final int Lev=3;
-	public final static int originalTileSize = 16;
-	public final static int echelle = 3;
+	public static final int Lev=1;
+	public final static int originalTileSize = getOriginalTileSize();
+	public final static int echelle = getEchelle();
 	public final static int tileSize = originalTileSize * echelle;
 	public static int Nb_col=getCol();
 	public static int Nb_row=getligne();
@@ -30,9 +39,6 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	
 	Thread thread; //SUBPROCESS to do multiple things 
 	public static Ayanman player;
-	public static Monster monster1;
-	public static Monster monster2;
-	public static Monster monster3;
 	public static Labyrinthe map;
 	public static Tresor tresor1;
 	public static Tresor tresor2;
@@ -41,6 +47,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public static Tresor key;
 	public static score score ;
 	public static Vie vie;
+	public static Magic magic;
 	public static Gagner gagner;
 	public static level Level;
 	public static Tresor [] liste_t;
@@ -53,16 +60,23 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	
 
 	
-	public static int getCol() {
+	public static int  getCol() {
 		Level=new level (Lev);
-		int c1=Level.col;
-		return c1;
+		return Level.col;
 	}
 	public static int getligne() {
 		Level=new level (Lev);
-		int c1=Level.ligne;
-		return c1;
+		return Level.ligne;
 	}
+	
+	public static int getOriginalTileSize() {
+		Level=new level (Lev);
+		return Level.OriginalTileSize;
+	}
+	public static int getEchelle() {
+		Level=new level (Lev);
+		return Level.echelle;
+		}
 	public Game() throws IOException {
 		
 		Dimension dimension = new Dimension(Game.WIDTH, Game.HEIGHT);
@@ -71,42 +85,30 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		this.setMaximumSize(dimension);
 		this.addKeyListener(this);
 		this.setFocusable(true);
-		//addKeyListener(this);
 		
-	
-		player =new Ayanman(0,60);
-		Level=new level (Lev);
-		//Level.generateLaby();
-		map=Level.map;
-		
-		monster1=new Monster(80,80,1);
+		/*monster1=new Monster(80,80,1);
 		monster2=new Monster(150,250,2);
-		monster3=new Monster(150,250,3);
-		liste_monsters=new Monster[3];
-		liste_monsters[0]=monster1;
+		monster3=new Monster(150,250,3);*/
+		Level=new level(Lev);
+		map=Level.map;
+		player =new Ayanman(tileSize,tileSize,map);
+		liste_monsters=Level.generateMonsters(map);
+		/*liste_monsters[0]=monster1;
 		liste_monsters[1]=monster2;
-		liste_monsters[2]=monster3;
+		liste_monsters[2]=monster3;*/
 		porte1=new Porte(4,17,map,1);
 		porte2=new Porte(6,5,map,2);
 		piege =new Piege(2,17,map);
 		liste3 =new Piege[1];
 		liste3[0]=piege;
 		
-
-		//KeyHandler keyH = new KeyHandler(
-		
-		
-		//score: coeur : gagner
-		
+		magic = new Magic(5,5,map);
 		
 		tresor1=new Tresor(10,2,map,1);
 		tresor2=new Tresor(5,9,map,1);
-		
 		coeur1=new Tresor(2,10,map,2);
 		coeur2=new Tresor(6,5,map,2);
-		
 		key=new Tresor(10,24,map,3);
-		
 		
 		liste_t=new Tresor[2];
 		liste_t[0]=tresor1;
@@ -120,6 +122,25 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		vie=new Vie(liste_t1,liste3);
 	
 		gagner=new Gagner(key);
+		
+		
+		
+		
+		
+		
+		//Level.generateLaby();
+		
+		
+
+		
+
+		//KeyHandler keyH = new KeyHandler(
+		
+		
+		//score: coeur : gagner
+		
+		
+		
 		player.MonsterNull(liste_monsters, map);
 
 	}
@@ -173,9 +194,6 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			for (int i=0;i<liste_monsters.length;i++) {
 				if (liste_monsters[i]!=null) {
 			liste_monsters[i].render(g2);
-			//monster1.render(g2);
-			//monster2.render(g2);
-			//monster3.render(g2);
 				}
 			}
 			try {
@@ -187,6 +205,8 @@ public class Game extends JPanel implements Runnable,KeyListener {
 				porte1.render(g2);
 				porte2.render(g2);
 				piege.render(g2);
+				score.drawScore(g2);
+				magic.render(g2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -228,16 +248,50 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	  
 	  public static void main(String[] args) throws IOException {  
 		  
-		Game game = new Game();
-		JFrame frame = new JFrame();
-		frame.setTitle(Game.TITLE);
-		frame.add(game);
-		frame.setResizable(false);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		game.start();
+			Game game = new Game();
+			ImageIcon img=new ImageIcon("back.png");
+			JLabel back;
+			JFrame frame = new JFrame();
+			frame.setTitle(Game.TITLE);
+			frame.add(game);
+			frame.setResizable(false);
+			frame.pack();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setLocationRelativeTo(null);
+			JMenuBar m=new JMenuBar();
+			JPanel pan=new JPanel();
+			frame.setContentPane(pan);
+			pan.setLayout(null);
+			pan.add(m);
+			m.setBounds(0, 0, Game.WIDTH, 70);
+			JMenu menu=new JMenu("Game");
+			menu.setFont(new Font("Arial",Font.PLAIN,50));
+			m.add(menu);
+			JMenuItem start=new JMenuItem("START");
+			start.setFont(new Font("Arial",Font.PLAIN,25));
+			JMenuItem quitter=new JMenuItem("QUITTER");
+			quitter.setFont(new Font("Arial",Font.PLAIN,25));
+			menu.setPreferredSize(new Dimension(200,200));
+			menu.add(start);
+			menu.add(quitter);
+			back=new JLabel("",img,JLabel.CENTER);
+			back.setBounds(0, 0,Game.WIDTH , Game.HEIGHT);
+			frame.add(back);
+			frame.setVisible(true);
+			start.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					frame.add(game);
+					game.start();
+				}
+			});
+			quitter.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+			
+			frame.setVisible(true);
+			
 
 	  }
 	  

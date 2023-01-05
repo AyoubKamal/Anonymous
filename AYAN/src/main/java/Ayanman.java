@@ -17,19 +17,18 @@ public class Ayanman  {
 	public BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
 	public BufferedImage upAtt1,upAtt2,downAtt1,downAtt2,leftAtt1,leftAtt2,rightAtt1,rightAtt2;
 	public String direction;
-	private int speed= 4;
+	public static int speed= 4;
 	public static Labyrinthe map;
 	public static int[][] t;
 	int x,y;
 	int i,j;
 	public int spriteCounter=0;
 	public int spriteNum=1;
-	public boolean wellPlaced=false ;
+
 
 	
-	public Ayanman(int x, int y) throws IOException {
+	public Ayanman(int x, int y,Labyrinthe map) throws IOException {
 		
-		map=new Labyrinthe("Laby.txt");
 		this.x=x;
 		this.y=y;
 		i =this.y/Game.tileSize;
@@ -38,12 +37,11 @@ public class Ayanman  {
 		getPlayerImage();
 		getPlayerAttaqueImage();
 
-		if(map.plateau[i][j]==0) {
-			this.wellPlaced=true;
-			}
+		if(map.plateau[i][j]!=0) {
+			Game.vie.nombre_de_vie=0;
 	}
 	
-
+}
 
 	/*public void update2() throws IOException{
 		t=map.getPlateau();
@@ -156,7 +154,6 @@ public class Ayanman  {
 	
 
 	public void update(Labyrinthe map) {
-		if (this.wellPlaced) {
 			if(this.attaque) {
 				attaquer();
 			}
@@ -197,8 +194,8 @@ public class Ayanman  {
 				spriteCounter=0;
 			}
 		}
-	}
 }
+
 	public boolean Colision(String direction,Labyrinthe map) {
 		
 		if (this.up==true) {
@@ -243,7 +240,7 @@ public class Ayanman  {
 	}
 
 	public void render(Graphics2D g2) {
-		if (this.wellPlaced) {
+
 
 		// g2.setColor(Color.white);
 		// g2.fillRect(x, y, gp.tileSize, gp.tileSize);
@@ -320,7 +317,7 @@ public class Ayanman  {
 		draw(g2,image,x,y);
 	}
 	
-}
+
 	
 	public void draw(Graphics2D g2, BufferedImage image, int x , int y) {
 		if (image==downAtt1 || image==downAtt2 ) {
@@ -379,16 +376,6 @@ public class Ayanman  {
 	public void checkDammage() {
 		int a=this.x;
 		int b=this.y;
-		/*switch (direction) {
-		case "up":  b=b-Game.tileSize;
-					a+=Game.tileSize/2;
-		case"down" :b+=Game.tileSize;
-					a+=Game.tileSize/2;
-		case "left"	: a-=Game.tileSize;
-					b+=Game.tileSize/2;
-		case "right" :a+=Game.tileSize;
-					b+=Game.tileSize/2;
-		}	*/
 		for (int i=0;i<Game.liste_monsters.length;i++) {
 			if(Game.liste_monsters[i]!=null) {
 				if ((Math.abs(a-Game.liste_monsters[i].getX())<Game.tileSize && Math.abs(b-Game.liste_monsters[i].getY())<10)||(Math.abs(b-Game.liste_monsters[i].getY())<Game.tileSize && Math.abs(a-Game.liste_monsters[i].getX())<10)) {
@@ -401,11 +388,13 @@ public class Ayanman  {
 	
 	public void MonsterNull(Monster [] liste_mon,Labyrinthe map) {
 		for (int i=0;i<liste_mon.length;i++) {
-			int a =liste_mon[i].getX()/Game.tileSize;
-			int b =liste_mon[i].getY()/Game.tileSize;
-			if (map.plateau[b][a]!=0) {
-				liste_mon[i]=null;
-				//System.out.println("Helooooo");
+			if (liste_mon[i]!=null) {
+				int a =liste_mon[i].getX()/Game.tileSize;
+				int b =liste_mon[i].getY()/Game.tileSize;
+				if (map.plateau[b][a]!=0) {
+					liste_mon[i]=null;
+					//System.out.println("Helooooo");
+				}
 			}
 		}
 	}
