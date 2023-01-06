@@ -344,8 +344,10 @@ public class Ayanman  {
 	}
 	
 	public void setX(int x) {
-		
+		if(map.plateau[(int)this.getY()/Game.tileSize][(int)x/Game.tileSize]==0) {
 		this.x=x;
+		}
+
 	}
 	
 	public double getY() {
@@ -353,7 +355,9 @@ public class Ayanman  {
 	}
 	
 	public void setY(int y) {
-		this.y=y;
+		if(map.plateau[(int)y/Game.tileSize][(int)this.getX()/Game.tileSize]==0) {
+			this.y=y;
+			}
 	}
 	
 	public void attaquer () {

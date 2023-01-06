@@ -15,8 +15,9 @@ public void update_gagner(Labyrinthe laby) {
 			a=tresor.getI();
 			b=tresor.getJ();
 		if ((Math.abs(Game.player.getX()-tresor.getX())<20 && Math.abs(Game.player.getY()-tresor.getY())<20)) {
+			ga=1;
 				Game.stop();
-				ga=1;
+				
 				System.out.println("BRAVO !!!!!!!!!!");
 				tresor=null;
 			}

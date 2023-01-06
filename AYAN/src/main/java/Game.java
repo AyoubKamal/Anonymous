@@ -27,7 +27,7 @@ import java.io.IOException;
 public class Game extends JPanel implements Runnable,KeyListener {
 	public static boolean isRunning = false;
 	public static final String TITLE = "Ayan-man";
-	public static final int Lev=3;
+	public static final int Lev=1;
 	public final static int originalTileSize = getOriginalTileSize();
 	public final static int echelle = getEchelle();
 	public final static int tileSize = originalTileSize * echelle;
@@ -59,6 +59,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 	public static Piege piege;
 	public static Piege [] liste3;
 	static JFrame frame = new JFrame();
+	Graphics2D g;
 	
 
 	
@@ -94,7 +95,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 
 		Level=new level(Lev);
 		map=Level.map;
-		player =new Ayanman(tileSize,tileSize,map);
+		
 		liste_monsters=Level.generateMonsters(map);
 		/*liste_monsters[0]=monster1;
 		liste_monsters[1]=monster2;
@@ -114,6 +115,8 @@ public class Game extends JPanel implements Runnable,KeyListener {
 		liste_tresor_1_1=Level.generateTresors1(map);
 		score=new score(liste_tresor_1);
 		vie=new Vie(liste_tresor_2,liste3,listem);
+		
+		player =new Ayanman(tileSize,tileSize,map);
 	
 		gagner=new Gagner(key);
 		
@@ -182,6 +185,7 @@ public class Game extends JPanel implements Runnable,KeyListener {
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D) g;
 			map.draw(g2);
+			this.g=g2;
 			for (int i=0;i<liste_monsters.length;i++) {
 				if (liste_monsters[i]!=null) {
 					liste_monsters[i].render(g2);
